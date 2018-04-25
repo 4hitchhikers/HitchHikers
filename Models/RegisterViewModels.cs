@@ -14,6 +14,10 @@ namespace Hitchhikers.Models
         [Display(Name = "Last Name")]
         public string LastName {get; set;}
         [Required]
+        [MinLength(2)]
+        [Display(Name = "Nickname")]
+        public string Nickname {get; set;}
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email {get; set;}
@@ -23,6 +27,6 @@ namespace Hitchhikers.Models
         public string Password {get; set;}
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "Passwords are not the same")]
-        public string CfPassword {get; set;}
+        public string ConfirmedPW {get; set;}
     }
 }
