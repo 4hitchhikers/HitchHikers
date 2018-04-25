@@ -32,8 +32,7 @@ namespace Hitchhikers
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDbContext<TravelContext>(options =>
-            options.UseSqlite(
+            services.AddDbContext<TravelContext>(options =>options.UseSqlite(
                 Configuration.GetConnectionString("DefaultConnection")));
             services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -1,0 +1,76 @@
+ @model Hitchhikers.Models.LoginViewModel
+<h1>Welcome </h1>
+@{
+    if (ViewBag.UserOrPasswordIsWrong != null)
+    {
+        <h1>@ViewBag.UserOrPasswordIsWrong</h1>
+    }
+}
+
+@model Hitchhikers.Models.RegisterViewModel
+
+<div asp-validation-summary="All"></div>
+<h1>Welcome</h1>
+
+    <p>
+       
+    </p>
+    <p>
+       
+    </p>
+    <p>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" type="email"/>
+        <span asp-validation-for="Email"></span>
+    </p>
+    <p>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password"/>
+        <span asp-validation-for="Password"></span>
+    </p>
+    <p>
+        <label asp-for="CfPassword"></label>
+        <input asp-for="CfPassword" type="password"/>
+        <span asp-validation-for="CfPassword"></span>
+    </p>
+    <button type="submit">Register</button>
+</form>
+
+
+
+
+ <div class="form-group mt-5">
+            <label for="Email">Email</label>
+            <input asp-for="Email" type="email"/>
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password" type="password"/>
+            <span asp-validation-for="Password"></span>
+        </div>       
+        <div class="col"> 
+            <button type="submit" class="btn btn-success ml-auto">SignIn</button>
+        </div>
+
+        <div class="form-group mt-5">
+             <label asp-for="FirstName">First Name</label>
+             <input asp-for="FirstName"/>
+             <span asp-validation-for="FirstName"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName"/>
+            <span asp-validation-for="LastName"></span>
+        </div>
+         <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" type="email"/>
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" type="password"/>
+            <span asp-validation-for="Password"></span>
+        </div>
+        <p class="text-danger">@TempData["error"]</p>
