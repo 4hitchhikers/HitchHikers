@@ -33,14 +33,14 @@ namespace Hitchhikers.Controllers
         [Route("ViewPicture")]
         public IActionResult ViewPicture()
         {
-            return View();
+            return View("");
         }
 
         [HttpGet]
         [Route("CollectivePhotos")]
         public IActionResult CollectivePhotos()
         {
-            return View();
+            return View("CollectivePhotos");
         }
 
         [HttpGet]
@@ -48,6 +48,13 @@ namespace Hitchhikers.Controllers
         public IActionResult StartChat()
         {
             return View("Chatroom");
+        }
+
+        [HttpGet]
+        [Route("EnlargePhoto")]
+        public IActionResult EnlargePhoto()
+        {
+            return View("EnlargePhoto");
         }
     }
 }
