@@ -23,4 +23,9 @@ connection.invoke("SendMessage", user, message).catch(err => console.error);
 event.preventDefault();
 });
 
-connection.start().catch(err => console.error);
+// connection.start().catch(err => console.error);
+connection.start().catch(err => logErr(errorMsg));
+
+function logErr(errorMsg) {
+    console.log(errorMsg);
+}

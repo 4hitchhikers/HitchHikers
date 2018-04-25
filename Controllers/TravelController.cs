@@ -20,6 +20,28 @@ namespace Hitchhikers.Controllers
             return View();
         }
 
+        [HttpPost]
+        [HttpGet]
+        [Route("Create")]
+        public IActionResult Create(CreateViewModel model)
+        {
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("ViewPicture")]
+        public IActionResult ViewPicture()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Route("CollectivePhotos")]
+        public IActionResult CollectivePhotos()
+        {
+            return View();
+        }
+
         [HttpGet]
         [Route("StartChat")]
         public IActionResult StartChat()

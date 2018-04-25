@@ -23,7 +23,7 @@ namespace Hitchhikers.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            return View("login");
+            return View();
         }
 
         [HttpPost]
@@ -50,7 +50,7 @@ namespace Hitchhikers.Controllers
                 _dbcontext.Users.Add(user);
                 _dbcontext.SaveChanges();
 
-                return RedirectToAction("Dashboard", "Travel");
+                return RedirectToAction("Create", "Travel");
             }
             return View(model);
         }

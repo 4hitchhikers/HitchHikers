@@ -1,1 +1,45 @@
-<h1>Welcome  @ViewBag.Email!</h1>
+<h1>Welcome @ViewBag.Email!</h1>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h1>Map</h1>
+        <img src="~/images/placeholder.png" class="figure-img rounded"/>
+    </div>
+     <div class="col-lg-6">
+        <p>User info</p>
+        <p><label>Firstname</label></p>
+        <p><label>LastName</label></p>
+        <p><label>Email</label></p>
+        <p><label>Picture count: 5</label></p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <p>Pic1</p>
+        <img src="~/images/placeholder.png" class="figure-img rounded"/>
+    </div>
+    <div class="col-md-5">
+        <p>Pic2</p>
+        <img src="~/images/placeholder.png" class="figure-img rounded"/>
+    </div>
+    <div class="col-md-5">
+        <p>Pic3</p>
+        <img src="~/images/placeholder.png" class="figure-img rounded"/>
+    </div>
+    <div class="col-md-5">
+        <p>Pic4</p>
+        <img src="~/images/placeholder.png" class="figure-img rounded"/>
+    </div>
+    <div class="col-md-5">
+        <p>Pic5</p>
+        <img src="~/images/placeholder.png" class="figure-img rounded"/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <form asp-controller="Travel" asp-action="Create" method="get">
+            <button type="submit" class="btn btn-primary">Add new picture</button>
+        </form>
+    </div>
+</div>
+ 
