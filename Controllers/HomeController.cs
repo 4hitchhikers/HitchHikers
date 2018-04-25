@@ -50,6 +50,8 @@ namespace Hitchhikers.Controllers
 
                 _dbcontext.Users.Add(user);
                 _dbcontext.SaveChanges();
+                int userId =  _dbcontext.Users.Where(e=>e.email == user.email).SingleOrDefault().userid;
+                HttpContext.Session.SetInt32("CurrentUserID", userId);
 
                 return RedirectToAction("Create", "Travel");
             }
