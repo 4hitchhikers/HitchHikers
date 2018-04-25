@@ -1,9 +1,138 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
+  <link rel="stylesheet" href="~/css/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
 
-<div class="row">
-    <div class="col-lg-6">
-        <h2>Map</h2>
-    </div>
-</div>
+  <script src="~/js/jquery-jvectormap-2.0.3.min.js"></script>
+  <script src="~/js/usa.js"></script>
+
+
+  <script>
+    $(document).ready(function() {
+        var gdpData = {
+          "AL": 100,
+          "AK": 20,
+          "AS": 96,
+          "AZ": 45,
+          "AR": 78,
+          "CA": 55,
+          "CO": 12,
+          "CT": 89,
+          "DE": 1,
+          "DC": 74,
+          "FM": 10,
+          "FL": 7,
+          "GA": 2,
+          "GU": 42,
+          "HI": 57,
+          "ID": 33,
+          "IL": 45,
+          "IN": 35,
+          "IA": 8,
+          "KS": 1,
+          "KY": 12,
+          "LA": 10,
+          "ME": 19,
+          "MH": 1,
+          "MD": 10,
+          "MA": 24,
+          "MI": 41,
+          "MN": 10,
+          "MS": 53,
+          "MO": 19,
+          "MT": 10,
+          "NE": 24,
+          "NV": 10,
+          "NH": 77,
+          "NJ": 19,
+          "NM": 64,
+          "NY": 21,
+          "NC": 10,
+          "ND": 96,
+          "MP": 10,
+          "OH": 19,
+          "OK": 24,
+          "OR": 19,
+          "PW":24,
+          "PA": 10,
+          "PR": 24,
+          "RI": 10,
+          "SC": 24,
+          "SD": 19,
+          "TN": 10,
+          "TX": 100,
+          "UT": 10,
+          "VT": 19,
+          "VI": 19,
+          "VA": 36,
+          "WA": 10,
+          "WV": 47,
+          "WI": 10,
+          "WY": 77
+   };
+        //var max = 0,
+        //min = Number.MAX_VALUE,
+        //cc,
+        //endColor = [88, 6, 94],
+        //startColor = [202, 10, 10],
+        //colors = {},
+        //hex;
+
+    //find maximum and minimum values
+    //for (cc in gdpData)
+    //{
+        //if (parseFloat(gdpData[cc]) > max)
+        //{
+           // max = parseFloat(gdpData[cc]);
+       // }
+        //if (parseFloat(gdpData[cc]) < min)
+        //{
+           //min = parseFloat(gdpData[cc]);
+       // }
+    //}
+    //console.log(max + "MAXIMUM");
+    //console.log(min + "MINIMUM");
+    // set colors according to values of GDP
+    //for (cc in gdpData)
+    //{
+        //if (gdpData[cc] > 0)
+        //{
+           // colors[cc] = '#';
+           // for (var i = 0; i<3; i++)
+            //{
+               // hex = Math.round(startColor[i]
+                   // + (endColor[i]
+                    //- startColor[i])
+                   // * (gdpData[cc] / (max - min))).toString(16);
+                //console.log("**********");
+                //console.log(hex);
+                //console.log(endColor[i]);
+               // console.log(startColor[i]);
+               // console.log(gdpData[cc]);
+               // console.log("**********");
+               // if (hex.length == 1)
+                //{
+                  //  hex = '0'+hex;
+               // }
+
+               // colors[cc] += (hex.length == 1 ? '0' : '') + hex;
+            //}
+       // }
+    //}
+        $('#map').vectorMap({
+            map: 'us_aea',
+            zoomOnScroll: false,
+            onRegionClick: function(e, code){
+                console.log(e);
+                console.log(code);
+                window.open("Dashboard/" + code);
+            },
+            series: {
+                regions: [{
+                    values: gdpData,
+                    scale: ['#f2ebea', '#dd2508'],
+                    normalizeFunction: 'polynomial'
+                }]
+            },
+        });
+    });
+  </script>
+ <div id="map" style="width: 1500px; height: 1000px"></div>

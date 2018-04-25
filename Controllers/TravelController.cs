@@ -13,11 +13,12 @@ namespace Hitchhikers.Controllers
     public class TravelController : Controller
     {
         [HttpGet]
-        [Route("Dashboard")]
-        public IActionResult Dashboard()
+        [Route("Dashboard/{state}")]
+        public IActionResult Dashboard(string state)
         {
+            ViewBag.state = state;
             ViewBag.Email = HttpContext.Session.GetString("email");
-            return View();
+            return View("Dashboard");
         }
 
         [HttpPost]
