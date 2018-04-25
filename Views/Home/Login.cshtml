@@ -1,13 +1,6 @@
-@model Hitchhikers.Models.LoginViewModel
-<h1>Welcome </h1>
-@{
-    if (ViewBag.UserOrPasswordIsWrong != null)
-    {
-        <h1>@ViewBag.UserOrPasswordIsWrong</h1>
-    }
-}
-<div asp-validation-summary="All"></div>
+<link rel="stylesheet" href="~/css/login.css"/>
 
+<div asp-validation-summary="All"></div>
 <form asp-controller="Home" asp-action="Login" method="post">
     <div class="form-group">
         <p>
