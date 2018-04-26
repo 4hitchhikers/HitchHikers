@@ -86,9 +86,13 @@ li{
 }
 
 .aroundborderregister{
-    height: 490px;
+    height: auto;
     width: 370px;
     margin-top: 50px;
-    padding: 25px 45px 0 40px;
+    padding: 25px 45px 25px 40px;
     background: rgba(238, 235, 235, 0.5);
+}
+
+.errors{
+    font-size: 15px;
 }
