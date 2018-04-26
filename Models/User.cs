@@ -6,25 +6,23 @@ namespace Hitchhikers.Models
 {
     public class User
     {
-        public int userid { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public string nickname { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string profile_pict { get; set; }
-        public DateTime created_at { get; set; }
-        public DateTime updated_at { get; set; }
-        public List<Place> visited { get; set; }
-        public List<Picture> uploaded { get; set; }
-        public List<Comment> my_comments { get; set; }
+        public int Userid { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Nickname { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string ProfilePict { get; set; }
+        public DateTime Created_At { get; set; }
+        public DateTime Updated_At { get; set; }
+        public List<Picture> Uploaded { get; set; }
+        public List<Comment> MyComments { get; set; }
         public User()
         {
-            this.created_at = DateTime.Now;
-            this.updated_at = DateTime.Now;
-            visited = new List<Place>();
-            uploaded = new List<Picture>();
-            my_comments = new List<Comment>();
+            this.Created_At = DateTime.Now;
+            this.Updated_At = DateTime.Now;
+            Uploaded = new List<Picture>();
+            MyComments = new List<Comment>();
         }
     }
 }

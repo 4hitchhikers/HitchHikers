@@ -5,7 +5,8 @@
         <div class="row">
             <div class="col-6">&nbsp;</div>
             <div class="col-6">
-                User..........<input type="text" id="userInput" />
+                User..........@ViewBag.CurrentUser.Name
+                User..........<input type="hidden" id="@ViewBag.CurrentUser.Name" />
                 <br />
                 Message...<input type="text" id="messageInput" />
                 <input type="button" id="sendButton" value="Send Message" />

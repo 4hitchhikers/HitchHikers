@@ -12,12 +12,21 @@ namespace Hitchhikers.Controllers
 {
     public class TravelController : Controller
     {
+        private TravelContext _dbcontext;
+
+        //Constructor
+        public TravelController(TravelContext context)
+        {
+            _dbcontext = context;
+        }
         [HttpGet]
         [Route("Dashboard/{state}")]
         public IActionResult Dashboard(string state)
         {
             ViewBag.state = state;
             ViewBag.Email = HttpContext.Session.GetString("email");
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
+            
             return View("Dashboard");
         }
 
@@ -47,14 +56,21 @@ namespace Hitchhikers.Controllers
         [Route("StartChat")]
         public IActionResult StartChat()
         {
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            ViewBag.CurrentUser = _dbcontext.Users.Where(e=>e.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"));
             return View("Chatroom");
         }
-
-        [HttpGet]
-        [Route("EnlargePhoto")]
-        public IActionResult EnlargePhoto()
+        
+        public bool CheckLoggedIn()
         {
-            return View("EnlargePhoto");
+            if (HttpContext.Session.GetInt32("CurrentUserID") == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

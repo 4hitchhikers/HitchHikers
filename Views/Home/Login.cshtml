@@ -1,18 +1,51 @@
-@model Hitchhikers.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login/Register";
+}
+@model Hitchhikers.Models.RegisterViewModel;
 
-<div asp-validation-summary="All"></div>
-<form asp-controller="Home" asp-action="Login" method="post">
-    <div class="form-group">
-        <p>
+<div class="row">
+    <div class="col-md-6">
+        <form asp-controller="Home" asp-action="Register" method="POST" class="form-group">
+        <h1>Register</h1>
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control">
+            <span asp-validation-for="FirstName"></span>
+
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control">
+            <span asp-validation-for="LastName"></span>
+
+            <label asp-for="Nickname"></label>
+            <input asp-for="Nickname" class="form-control">
+            <span asp-validation-for="Nickname"></span>
+
             <label asp-for="Email"></label>
-            <input asp-for="Email" type="email" class="form-control"/>
+            <input asp-for="Email" class="form-control"> 
             <span asp-validation-for="Email"></span>
-        </p>
-        <p>
+
             <label asp-for="Password"></label>
-            <input asp-for="Password" type="password" class="form-control"/>
+            <input asp-for="Password" class="form-control"> 
             <span asp-validation-for="Password"></span>
-        </p>
-        <button class="btn btn-primary" type="submit">Login</button>
+
+            <label asp-for="ConfirmedPW"></label>
+            <input asp-for="ConfirmedPW" class="form-control">
+            <span asp-validation-for="ConfirmedPW"></span>
+            <br>
+            <button type="submit" class="btn btn-info">Create new User</button>
+        </form>
     </div>
-</form>
+    <div class="col-md-6">
+        <form action="/login" method="POST" class="form-group">
+            <h1>Login</h1>
+            Email: <input type="text" name="Email" class="form-control"> 
+            Password: <input type="password" name="loginpw" class="form-control">
+            <br>
+            <input type="submit" name="login" value="Login" class="btn btn-info">
+        </form>
+        <div>
+        @{
+           <span>@ViewBag.Error </span>
+        }
+        </div>
+    </div>
+</div>

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hitchhikers.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Hitchhikers.Controllers
 {
@@ -26,55 +28,64 @@ namespace Hitchhikers.Controllers
             return View("Index");
         }
 
-        [HttpPost]
         [HttpGet]
+        [Route("signin")]
+        public IActionResult SignIn()
+        {
+            return View("Login");
+        }
+
+        [HttpPost]
         [Route("register")]
         public IActionResult Register(RegisterViewModel model)
         {
+            // User user = _dbcontext.Users.Where(e=>e.Email == model.Email).SingleOrDefault();
+            // if(user != null){
+            //     ViewBag.Error ="Email already registered";
+            //     return View("Login");
+            // }
             if (ModelState.IsValid)
             {
-                HttpContext.Session.SetString("email", model.Email);
-                HttpContext.Session.SetString("firstname", model.FirstName);
-
-                var user = new User
+                User NewUser  = new User
                 {
-                    first_name = model.FirstName,
-                    last_name = model.LastName,
-                    email = model.Email,
-                    password = model.Password,
-                    created_at = DateTime.UtcNow,
-                    updated_at = DateTime.UtcNow
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Nickname = model.Nickname,
+                    Email = model.Email,
+                    Password = model.Password
 
                 };
-
-                _dbcontext.Users.Add(user);
+                PasswordHasher<User> Hasher = new PasswordHasher<User>();
+                NewUser.Password = Hasher.HashPassword(NewUser, NewUser.Password);
+                _dbcontext.Users.Add(NewUser);
                 _dbcontext.SaveChanges();
-
+                var loginUser = _dbcontext.Users.SingleOrDefault(User => User.Email == model.Email);
+                HttpContext.Session.SetInt32("CurrentUserID", loginUser.Userid);
                 return RedirectToAction("Create", "Travel");
             }
-            return View(model);
+            return View("Login");
         }
 
-        [HttpGet]
+
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(LoginViewModel model)
+        public IActionResult Login(string Email, string loginpw)
         {
-            if (ModelState.IsValid)
-            {
-                var user = _dbcontext.Users.SingleOrDefault(dbUser => dbUser.email == model.Email && dbUser.password == model.Password);
+            PasswordHasher<User> Hasher = new PasswordHasher<User>();
 
-                if (user != null)
+            var loginUser = _dbcontext.Users.SingleOrDefault(User => User.Email == Email);
+            if (loginUser != null)
+            {
+                var hashedPw = Hasher.VerifyHashedPassword(loginUser, loginUser.Password, loginpw);
+                if (hashedPw == PasswordVerificationResult.Success)
                 {
-                    HttpContext.Session.SetString("email", model.Email);
-                    return RedirectToAction("Dashboard", "Travel");
-                }
-                else
-                {
-                    ViewBag.UserOrPasswordIsWrong = "Username or password is not valid";
+                    HttpContext.Session.SetInt32("CurrentUserID", loginUser.Userid);
+                    return RedirectToAction("Create", "Travel");
                 }
             }
-            return View(model);
+
+            ViewBag.Error = "Email address or Password is not matching";
+            return View("Login");
         }
 
         [HttpGet]

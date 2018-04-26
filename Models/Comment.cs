@@ -8,20 +8,20 @@ namespace Hitchhikers.Models
     public class Comment
     {
 
-        public int commentid { get; set; }
-        public string comment { get; set; }
-        public int senderid { get; set; }
-        public User sender { get; set; }
-        public int pictureid { get; set; }
-        public Picture picture { get; set; }
-        public DateTime created_at { get; set; }
-        public DateTime updated_at { get; set; }
+        public int Commentid { get; set; }
+        public string CommentText { get; set; }
+        public int SenderId { get; set; }
+        public User Sender { get; set; }
+        public int PictureId { get; set; }
+        public Picture Picture { get; set; }
+        public DateTime Created_At { get; set; }
+        public DateTime Updated_At { get; set; }
 
 
         public Comment()
         {
-            this.created_at = DateTime.Now;
-            this.updated_at = DateTime.Now;
+            this.Created_At = DateTime.Now;
+            this.Updated_At = DateTime.Now;
 
         }
     }
