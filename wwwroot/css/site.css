@@ -2,3 +2,7 @@
     background-color: #505050;
     z-index: -1
 } */
+
+body {
+    padding-top: 50px;
+}

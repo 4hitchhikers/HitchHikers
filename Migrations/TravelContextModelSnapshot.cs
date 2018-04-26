@@ -47,6 +47,10 @@ namespace Hitchhikers.Migrations
                     b.Property<int>("PictureId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Address");
+
+                    b.Property<string>("City");
+
                     b.Property<DateTime>("Created_At");
 
                     b.Property<DateTime>("DateVisited");
@@ -55,7 +59,7 @@ namespace Hitchhikers.Migrations
 
                     b.Property<string>("PictName");
 
-                    b.Property<int>("StateId");
+                    b.Property<string>("States");
 
                     b.Property<DateTime>("Updated_At");
 
@@ -63,31 +67,9 @@ namespace Hitchhikers.Migrations
 
                     b.HasKey("PictureId");
 
-                    b.HasIndex("StateId");
-
                     b.HasIndex("UploaderId");
 
                     b.ToTable("Pictures");
-                });
-
-            modelBuilder.Entity("Hitchhikers.Models.State", b =>
-                {
-                    b.Property<int>("StateId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address");
-
-                    b.Property<string>("City");
-
-                    b.Property<DateTime>("Created_At");
-
-                    b.Property<string>("States");
-
-                    b.Property<DateTime>("Updated_At");
-
-                    b.HasKey("StateId");
-
-                    b.ToTable("States");
                 });
 
             modelBuilder.Entity("Hitchhikers.Models.User", b =>
@@ -131,11 +113,6 @@ namespace Hitchhikers.Migrations
 
             modelBuilder.Entity("Hitchhikers.Models.Picture", b =>
                 {
-                    b.HasOne("Hitchhikers.Models.State", "State")
-                        .WithMany("PictPlace")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Hitchhikers.Models.User", "Uploader")
                         .WithMany("Uploaded")
                         .HasForeignKey("UploaderId")

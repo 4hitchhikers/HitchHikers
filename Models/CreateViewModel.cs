@@ -5,7 +5,6 @@ namespace Hitchhikers.Models
 {
     public class CreateViewModel
     {
-    
         [Required]
         [Display(Name = "Photo")]
         public string PictName {get; set;}

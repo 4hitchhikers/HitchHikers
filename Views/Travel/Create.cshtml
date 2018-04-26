@@ -11,11 +11,11 @@
          <p>
             <label asp-for="States"></label>
             <span asp-validation-for="States" class="text-danger"></span>
-            <select class="form-control" asp-for="States" name="state">
+            <select class="form-control" asp-for="States">
             @{
-                foreach (KeyValuePair<string, int> states in @ViewBag.all_states)
+                foreach (var states in @ViewBag.all_states)
                 {
-                    <option value =@states.Value>@states.Key</option>
+                    <option>@states</option>
                 }                
             }
             </select>

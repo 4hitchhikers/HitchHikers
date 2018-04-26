@@ -9,23 +9,6 @@ namespace Hitchhikers.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "States",
-                columns: table => new
-                {
-                    StateId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    States = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    Created_At = table.Column<DateTime>(nullable: false),
-                    Updated_At = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_States", x => x.StateId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -52,22 +35,18 @@ namespace Hitchhikers.Migrations
                     PictureId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     PictName = table.Column<string>(nullable: true),
-                    DateVisited = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
+                    States = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    DateVisited = table.Column<DateTime>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
                     Created_At = table.Column<DateTime>(nullable: false),
                     Updated_At = table.Column<DateTime>(nullable: false),
-                    UploaderId = table.Column<int>(nullable: false),
-                    StateId = table.Column<int>(nullable: false)
+                    UploaderId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pictures", x => x.PictureId);
-                    table.ForeignKey(
-                        name: "FK_Pictures_States_StateId",
-                        column: x => x.StateId,
-                        principalTable: "States",
-                        principalColumn: "StateId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Pictures_Users_UploaderId",
                         column: x => x.UploaderId,
@@ -116,11 +95,6 @@ namespace Hitchhikers.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pictures_StateId",
-                table: "Pictures",
-                column: "StateId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Pictures_UploaderId",
                 table: "Pictures",
                 column: "UploaderId");
@@ -133,9 +107,6 @@ namespace Hitchhikers.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pictures");
-
-            migrationBuilder.DropTable(
-                name: "States");
 
             migrationBuilder.DropTable(
                 name: "Users");
