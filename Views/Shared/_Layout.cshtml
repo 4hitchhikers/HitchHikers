@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WeekProject</title>
+    <title>@ViewData["Title"] Hitchhikers</title>
      <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-    <title>@ViewData["Title"] - Hitchhikers</title>
+    <title>@ViewData["Title"] Hitchhikers</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -52,26 +52,27 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Register">Register</a></li>
+                    <li><a asp-area="" asp-controller="Travel" asp-action="Dashboard">Dashboard</a></li>
+                    <li><a asp-area="" asp-controller="Travel" asp-action="StartChat">Chat Room</a></li>
                     @{
                         if(@ViewBag.CurrentUserID == null){
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Login</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="SignIn">Login</a></li>
                         }else{
                             <li><a asp-area="" asp-controller="Home" asp-action="Logout">Logout</a></li>
                         }
                     }
-                    <li><a asp-area="" asp-controller="Wall" asp-action="Dashboard">Dashboard</a></li>
+                    
                     
                 </ul>
             </div>
         </div>
     </nav>
-    @RenderBody()
+    
     <div class="container body-content">
+        @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - WeekProject</p>
+            <p>&copy; 2018 - Hitchhikers</p>
         </footer>
     </div>
     @RenderSection("Scripts", required: false)
