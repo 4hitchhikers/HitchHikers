@@ -30,7 +30,6 @@ namespace Hitchhikers.Controllers
             // ViewBag.state = state;
             // ViewBag.Email = HttpContext.Session.GetString("email");
             // ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
-            
             return View("Dashboard");
         }
 
