@@ -3,7 +3,6 @@ body{
     padding-top:50px;
 }
 
-
 #register_log
 {
     background-image: url('../images/adventure-ball-shaped-blur-346885.jpg');
@@ -17,19 +16,17 @@ body{
     z-index: -1
 } */
 
-
 body {
     padding-top: 50px;
 }
-
-/* .box{
+.box{
     margin-top: 150px;
     height: auto;
     width: 50%;
     flex-wrap: wrap;
     padding: 20px;
     background: white;
-} */
+}
 .chatroom{
     margin-top: 130px;
     padding-left: 60px;
@@ -75,20 +72,3 @@ li{
     background: rgba(238, 235, 235, 0.5);
 }
 
-
-
-.aroundborderlogin{
-    height: 320px;
-    width: 370px;
-    margin-top: 50px;
-    padding: 45px 45px 0 40px;
-    background: rgba(238, 235, 235, 0.5);
-}
-
-.aroundborderregister{
-    height: 490px;
-    width: 370px;
-    margin-top: 50px;
-    padding: 25px 45px 0 40px;
-    background: rgba(238, 235, 235, 0.5);
-}

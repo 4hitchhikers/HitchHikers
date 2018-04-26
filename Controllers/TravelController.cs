@@ -38,10 +38,10 @@ namespace Hitchhikers.Controllers
         public IActionResult Create()
         {
             List<string> StateList = new List<string>
-            { "AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC","FM", "FL","GA", "GU","HI","ID","IL", "IN", "IA","KS","KY","LA","ME", "MH", "MD", "MA", "MI","MN","MS","MO", "MT", "NE","NV","NH","NJ", "NM", "NY", "NC", "ND","MP","OH","OK", "OR",  "PW", "PA","PR","RI", "SC", "SD", "TN","TX","UT","VT", "VI", "VA", "WA", "WV", "WI","WY"};     
+            { "AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC","FM", "FL","GA", "GU","HI","ID","IL", "IN", "IA","KS","KY","LA","ME", "MH", "MD", "MA", "MI","MN","MS","MO", "MT", "NE","NV","NH","NJ", "NM", "NY", "NC", "ND","MP","OH","OK", "OR",  "PW", "PA","PR","RI", "SC", "SD", "TN","TX","UT","VT", "VI", "VA", "WA", "WV", "WI","WY"};
             ViewBag.all_states = StateList;
 
-          return View("Create");
+            return View("Create");
         }
 
         [HttpPost]
@@ -50,9 +50,10 @@ namespace Hitchhikers.Controllers
         {
             System.Console.WriteLine((int)HttpContext.Session.GetInt32("CurrentUserID"));
 
-           if(ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
 
-               Picture NewPicture  = new Picture
+                Picture NewPicture = new Picture
                 {
                     UploaderId = (int)HttpContext.Session.GetInt32("CurrentUserID"),
                     States = model.States,
@@ -61,12 +62,12 @@ namespace Hitchhikers.Controllers
                     DateVisited = model.DateOfVisit,
                     Description = model.Description,
                 };
- 
+
                 _dbcontext.Pictures.Add(NewPicture);
                 _dbcontext.SaveChanges();
-                return View("Dashboard");    
+                return View("Dashboard");
             }
-        return View("Create");
+            return View("Create");
         }
 
         [HttpGet]
@@ -96,21 +97,12 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            ViewBag.CurrentUser = _dbcontext.Users.Where(e=>e.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"));
+            User user = _dbcontext.Users.Where(e => e.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID")).SingleOrDefault();
+            ViewBag.CurrentUser = user.FirstName;
             return View("Chatroom");
         }
-        
+
         public bool CheckLoggedIn()
-        {
-            if (HttpContext.Session.GetInt32("CurrentUserID") == null)
-            {
-                return false;
-            }
-            return true;
-        }
-
-
-        public bool checkLoggedIn()
         {
             if (HttpContext.Session.GetInt32("CurrentUserID") == null)
             {
