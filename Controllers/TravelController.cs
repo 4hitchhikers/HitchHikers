@@ -20,7 +20,7 @@ namespace Hitchhikers.Controllers
             _dbcontext = context;
         }
         [HttpGet]
-        [Route("Dashboard/{state}")]
+        [Route("Dashboard")]
         public IActionResult Dashboard(string state)
         {
             ViewBag.state = state;
