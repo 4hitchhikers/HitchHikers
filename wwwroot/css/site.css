@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿body{
+body{
     padding-top:50px;
 }
 
@@ -11,8 +10,7 @@
     background-repeat: no-repeat;
 
 }
-=======
-﻿/* .index{
+/* .index{
     background-color: #505050;
     z-index: -1
 } */
@@ -69,4 +67,20 @@ li{
     padding: 10px 50px 0 20px;
     background: rgba(238, 235, 235, 0.5);
 }
->>>>>>> daf8c5913f9edbe056ce8090a101f577239cd513
+
+
+.aroundborderlogin{
+    height: 320px;
+    width: 370px;
+    margin-top: 50px;
+    padding: 45px 45px 0 40px;
+    background: rgba(238, 235, 235, 0.5);
+}
+
+.aroundborderregister{
+    height: 490px;
+    width: 370px;
+    margin-top: 50px;
+    padding: 25px 45px 0 40px;
+    background: rgba(238, 235, 235, 0.5);
+}
