@@ -56,11 +56,11 @@ namespace Hitchhikers.Controllers
         [Route("StartChat")]
         public IActionResult StartChat()
         {
-            if (!CheckLoggedIn())
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            ViewBag.CurrentUser = _dbcontext.Users.Where(e=>e.userid == (int)HttpContext.Session.GetInt32("CurrentUserID"));
+            // if (!CheckLoggedIn())
+            // {
+            //     return RedirectToAction("Login", "Home");
+            // }
+            ViewBag.CurrentUser = _dbcontext.Users.Where(e=>e.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"));
             return View("Chatroom");
         }
 
