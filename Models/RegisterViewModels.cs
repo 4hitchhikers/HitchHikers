@@ -25,6 +25,8 @@ namespace Hitchhikers.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password {get; set;}
+        [Required]
+        [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "Passwords are not the same")]
         public string ConfirmedPW {get; set;}
