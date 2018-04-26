@@ -32,9 +32,9 @@ namespace Hitchhikers
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDbContext<TravelContext>(options =>options.UseMySql(
-                Configuration["DBInfo:ConnectionString"]));
-            services.Configure<MySqlOptions>(Configuration.GetSection("DBInfo"));
+            services.AddDbContext<TravelContext>(options =>
+                options.UseSqlite(
+                    Configuration.GetConnectionString("DefaultConnection")));
             services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSignalR();

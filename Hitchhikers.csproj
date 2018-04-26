@@ -12,9 +12,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0-preview2-final" PrivateAssets="All" />
   </ItemGroup>
 
-  <!-- <ItemGroup>
+  <ItemGroup>
       <None Update="app.db" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup> -->
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
