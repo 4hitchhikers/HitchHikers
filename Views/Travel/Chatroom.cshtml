@@ -18,6 +18,7 @@
             asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
             asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     </environment>
 </head>
 <body id="ChatroomBg">
@@ -51,34 +52,32 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 chatroom">
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-12">&nbsp;</div>
-            <div class="col-12 chatbox">
-                <ul id="messagesList"></ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">&nbsp;</div>
-            <div class="col-6">
-                <form>
-                @ViewBag.CurrentUser<input type="hidden" id="userInput" value=@ViewBag.CurrentUser />
-                <br />
-                <input type="text" id="messageInput" class="messageInput form-control" placeholder="Enter Message"/>
-                
-                    <div class="row">&nbsp;</div>
-                    <input type="submit" id="sendButton" value="Send Message" class="btn btn-primary sendBtn"/>
+        <div class="col-md-6 col-12 chatroom">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <i class="fas fa-plane">icon</i>
                 </div>
-                </form>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <hr />
             </div>
+            <div class="row">
+                <div class="col-md-12 chatbox">
+                    <ul id="messagesList"></ul>
+                </div>
+            </div>
+        <div class="row">
+            <form>
+                <input type="hidden" id="userInput" value=@ViewBag.CurrentUser />
+                <br />
+                <div class="col-md-10"> 
+                    <input type="text" id="messageInput" class="messageInput form-control" placeholder="Enter Message"/>
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" id="sendButton" value="Send" class="btn btn-primary sendBtn form-control"/>
+                </div>
+            </form>
         </div>
-    </div>
-    <div class="col-md-6"></div>
+        </div>
+    <div class="col-md-6 col-12"></div>
     </div>
     
     
