@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 body{
     padding-top:50px;
 }
@@ -11,17 +11,17 @@ body{
     background-repeat: no-repeat;
 
 }
-=======
+
 /* .index{
     background-color: #505050;
     z-index: -1
 } */
 
-<<<<<<< HEAD
+
 body {
     padding-top: 50px;
 }
-=======
+
 /* .box{
     margin-top: 150px;
     height: auto;
@@ -74,5 +74,21 @@ li{
     padding: 10px 50px 0 20px;
     background: rgba(238, 235, 235, 0.5);
 }
->>>>>>> daf8c5913f9edbe056ce8090a101f577239cd513
->>>>>>> 2bcad9bc0c6ba44ac3e8a9ed2f817cc15086e409
+
+
+
+.aroundborderlogin{
+    height: 320px;
+    width: 370px;
+    margin-top: 50px;
+    padding: 45px 45px 0 40px;
+    background: rgba(238, 235, 235, 0.5);
+}
+
+.aroundborderregister{
+    height: 490px;
+    width: 370px;
+    margin-top: 50px;
+    padding: 25px 45px 0 40px;
+    background: rgba(238, 235, 235, 0.5);
+}

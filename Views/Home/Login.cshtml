@@ -18,66 +18,81 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <form asp-controller="Home" asp-action="Register" method="POST" class="form-group">
-                <h1>Register</h1>
-                    <div class="form-group">
-                        <div>
-                            <label asp-for="FirstName"></label>
-                            <input asp-for="FirstName" class="form-control">
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                        </div>
 
-
-                        <div>
-                            <label asp-for="LastName"></label>
-                            <input asp-for="LastName" class="form-control">
-                
-                            <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
-                        <div>
-                            <label asp-for="Nickname"></label>
-                            <input asp-for="Nickname" class="form-control">
-
-                            <span asp-validation-for="Nickname" class="text-danger"></span>
-                        </div>
-                
-                        <div>
-                            <label asp-for="Email"></label>
-                            <input asp-for="Email" class="form-control"> 
-
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                            <span class="text-danger">@TempData["error"]</span>
-                        </div>
-
-                        <div>
-                            <label asp-for="Password"></label>
-                            <input asp-for="Password" class="form-control"> 
-                
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div>
-                            <label asp-for="ConfirmedPW"></label>
-                            <input asp-for="ConfirmedPW" class="form-control">
+                <div class="aroundborderregister">
+                    <form asp-controller="Home" asp-action="Register" method="POST" class="form-group">
+                    <h1>Register</h1>
+                        <div class="form-group">
+                            <div>
+                                <div class="form-group"></div>
+                                <input asp-for="FirstName" class="form-control" placeholder="First Name">
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div>
+                               <div class="form-group"></div>
+                                <input asp-for="LastName" class="form-control" placeholder="Last Name">
                     
-                            <span asp-validation-for="ConfirmedPW" class="text-danger"></span>
+                                <small asp-validation-for="LastName" class="text-danger"></small>
+                            </div>
+                            <div>
+                                <div class="form-group"></div>
+                                <input asp-for="Nickname" class="form-control" placeholder="Nickname">
+
+                                <span asp-validation-for="Nickname" class="text-danger"></span>
+                            </div>
+                    
+                            <div>
+                                <div class="form-group"></div>
+                                <input asp-for="Email" class="form-control" placeholder="Email"> 
+
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                                <span class="text-danger">@TempData["error"]</span>
+                            </div>
+
+                            <div>
+                                <div class="form-group"></div>
+                                <input asp-for="Password" class="form-control" placeholder="Password"> 
+                    
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <div class="form-group"></div>
+                                <input asp-for="ConfirmedPW" class="form-control" placeholder="Confirm Password">
+                        
+                                <span asp-validation-for="ConfirmedPW" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <div class="form-group"></div>
+                                <button type="submit" class="btn btn-success btn-block">Create new User</button>
+                            </div>
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-success">Create new User</button>
-                </form>
+                        
+                    </form>
+                </div>
             </div>
-            <div class="col-md-6"></div>
+
+
+            <div class="col-md-4"></div>
             <div class="col-md-3">
-                <form action="Login" method="POST" class="form-group">
-                    <h1>Login</h1>
-                    <br>
-                    Email: <input type="text" name="email" class="form-control"> 
-                    <br>
-                    Password: <input type="password" name="loginpw" class="form-control">
-                    <br>
-                    <span class="text-danger">@ViewBag.Error </span>
-                    <br>
-                    <input type="submit" name="login" value="Login" class="btn btn-info">
-                </form>
+                <div class="aroundborderlogin">
+                    <form action="Login" method="POST" class="form-group">
+                        <h1>Login</h1>
+                        <div>
+                            <div class="form-group"></div>
+                            <input type="text" name="email" class="form-control" placeholder="Email"> 
+                        </div>
+                        <div>
+                            <div class="form-group"></div>
+                            <input type="password" name="loginpw" class="form-control" placeholder="Password"> 
+                            <span class="text-danger">@ViewBag.Error </span>
+                        </div>
+
+                        <div>
+                            <div class="form-group"></div>
+                            <input type="submit" name="login" value="Login" class="btn btn-info btn-block" >
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
