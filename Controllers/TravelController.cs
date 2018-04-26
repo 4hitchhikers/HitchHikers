@@ -21,11 +21,15 @@ namespace Hitchhikers.Controllers
         }
         [HttpGet]
         [Route("Dashboard")]
-        public IActionResult Dashboard(string state)
+        public IActionResult Dashboard()
         {
-            ViewBag.state = state;
-            ViewBag.Email = HttpContext.Session.GetString("email");
-            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
+            // ViewBag.state = state;
+            // ViewBag.Email = HttpContext.Session.GetString("email");
+            // ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             
             return View("Dashboard");
         }
@@ -74,9 +78,14 @@ namespace Hitchhikers.Controllers
         }
 
         [HttpGet]
-        [Route("CollectivePhotos")]
-        public IActionResult CollectivePhotos()
+        [Route("CollectivePhotos/{state}")]
+        public IActionResult CollectivePhotos(string state)
         {
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
+            ViewBag.state = state;
             return View("CollectivePhotos");
         }
 
@@ -93,6 +102,16 @@ namespace Hitchhikers.Controllers
         }
         
         public bool CheckLoggedIn()
+        {
+            if (HttpContext.Session.GetInt32("CurrentUserID") == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+        public bool checkLoggedIn()
         {
             if (HttpContext.Session.GetInt32("CurrentUserID") == null)
             {
