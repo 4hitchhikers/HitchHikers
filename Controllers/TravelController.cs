@@ -85,7 +85,8 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
-            ViewBag.state = state;
+
+            
             return View("CollectivePhotos");
         }
 

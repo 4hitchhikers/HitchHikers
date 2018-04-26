@@ -90,6 +90,12 @@ li{
     background: rgba(238, 235, 235, 0.5);
 }
 
-.errors{
-    font-size: 15px;
+.forms_errors{
+    font-size: 10px;
 }
+
+.padding_betweeen_valid_errors{
+    margin-bottom: -5px;
+}
+
+
