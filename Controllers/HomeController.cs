@@ -39,13 +39,16 @@ namespace Hitchhikers.Controllers
         [Route("register")]
         public IActionResult Register(RegisterViewModel model)
         {
-            // User user = _dbcontext.Users.Where(e=>e.Email == model.Email).SingleOrDefault();
-            // if(user != null){
-            //     ViewBag.Error ="Email already registered";
-            //     return View("Login");
-            // }
+
+            var checkEmail = _dbcontext.Users.SingleOrDefault(e => e.Email == model.Email);
             if (ModelState.IsValid)
             {
+                if(checkEmail != null)
+                {
+                    TempData["error"] = "Email already in use";
+                    return View("Login");
+                }
+            
                 User NewUser  = new User
                 {
                     FirstName = model.FirstName,
@@ -59,9 +62,9 @@ namespace Hitchhikers.Controllers
                 NewUser.Password = Hasher.HashPassword(NewUser, NewUser.Password);
                 _dbcontext.Users.Add(NewUser);
                 _dbcontext.SaveChanges();
-                var loginUser = _dbcontext.Users.SingleOrDefault(User => User.Email == model.Email);
-                HttpContext.Session.SetInt32("CurrentUserID", loginUser.Userid);
-                return RedirectToAction("Create", "Travel");
+
+                HttpContext.Session.SetInt32("CurrentUserID", NewUser.Userid);
+                return RedirectToAction("Dashboard", "Travel");
             }
             return View("Login");
         }
@@ -69,23 +72,25 @@ namespace Hitchhikers.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(string Email, string loginpw)
+        public IActionResult Login(string email, string loginpw)
         {
+
             PasswordHasher<User> Hasher = new PasswordHasher<User>();
 
-            var loginUser = _dbcontext.Users.SingleOrDefault(User => User.Email == Email);
+            var loginUser = _dbcontext.Users.SingleOrDefault(User => User.Email == email);
             if (loginUser != null)
             {
                 var hashedPw = Hasher.VerifyHashedPassword(loginUser, loginUser.Password, loginpw);
                 if (hashedPw == PasswordVerificationResult.Success)
                 {
                     HttpContext.Session.SetInt32("CurrentUserID", loginUser.Userid);
-                    return RedirectToAction("Create", "Travel");
+                    return RedirectToAction("Dashboard", "Travel");
                 }
             }
 
             ViewBag.Error = "Email address or Password is not matching";
             return View("Login");
+
         }
 
         [HttpGet]
@@ -93,7 +98,7 @@ namespace Hitchhikers.Controllers
         public IActionResult Logoff()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
         public IActionResult Error()
         {
@@ -101,3 +106,25 @@ namespace Hitchhikers.Controllers
         }
     }
 }
+
+
+
+            // var checkEmail = _dbcontext.Users.SingleOrDefault(e => e.Email == email);
+            // if(checkEmail==null)
+            // {
+            //     ViewBag.email_error = "Please check your email otherwie go to register";
+            //     return View("Login");
+            // }
+
+            // if(checkEmail!=null && loginpw!= null)
+            // {
+            //     var hasher = new PasswordHasher<User>();
+            //     if(0 != hasher.VerifyHashedPassword(checkEmail, checkEmail.Password, loginpw))
+            //     {
+            //         HttpContext.Session.SetInt32("CurrentUserID", checkEmail.Userid);
+            //         // var id = HttpContext.Session.GetInt32("userid");
+            //         return RedirectToAction("Dashboard", "Travel");
+            //     }
+            // }
+            // ViewBag.psw_error = "Password is incorrect";
+            // return View("Login");

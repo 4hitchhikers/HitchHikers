@@ -20,7 +20,7 @@ namespace Hitchhikers.Controllers
             _dbcontext = context;
         }
         [HttpGet]
-        [Route("Dashboard/{state}")]
+        [Route("Dashboard")]
         public IActionResult Dashboard(string state)
         {
             ViewBag.state = state;
@@ -42,14 +42,14 @@ namespace Hitchhikers.Controllers
         [Route("ViewPicture")]
         public IActionResult ViewPicture()
         {
-            return View();
+            return View("");
         }
 
         [HttpGet]
         [Route("CollectivePhotos")]
         public IActionResult CollectivePhotos()
         {
-            return View();
+            return View("CollectivePhotos");
         }
 
         [HttpGet]
@@ -60,10 +60,10 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            ViewBag.CurrentUser = _dbcontext.Users.Where(e=>e.userid == (int)HttpContext.Session.GetInt32("CurrentUserID"));
+            ViewBag.CurrentUser = _dbcontext.Users.Where(e=>e.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"));
             return View("Chatroom");
         }
-
+        
         public bool CheckLoggedIn()
         {
             if (HttpContext.Session.GetInt32("CurrentUserID") == null)
