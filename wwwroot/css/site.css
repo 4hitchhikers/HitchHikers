@@ -1,4 +1,12 @@
-﻿/* .index{
-    background-color: #505050;
-    z-index: -1
-} */
+﻿body{
+    padding-top:50px;
+}
+
+
+#register_log
+{
+    background-image: url('../images/adventure-ball-shaped-blur-346885.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}

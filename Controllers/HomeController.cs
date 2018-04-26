@@ -37,7 +37,7 @@ namespace Hitchhikers.Controllers
 
         [HttpPost]
         [Route("register")]
-        public IActionResult Register(RegisterViewModel model)
+        public IActionResult Register(RegisterViewModel model, string state)
         {
 
             var checkEmail = _dbcontext.Users.SingleOrDefault(e => e.Email == model.Email);
@@ -64,7 +64,7 @@ namespace Hitchhikers.Controllers
                 _dbcontext.SaveChanges();
 
                 HttpContext.Session.SetInt32("CurrentUserID", NewUser.Userid);
-                return RedirectToAction("Dashboard", "Travel");
+                return RedirectToAction("Index");
             }
             return View("Login");
         }
@@ -84,7 +84,7 @@ namespace Hitchhikers.Controllers
                 if (hashedPw == PasswordVerificationResult.Success)
                 {
                     HttpContext.Session.SetInt32("CurrentUserID", loginUser.Userid);
-                    return RedirectToAction("Dashboard", "Travel");
+                    return RedirectToAction("Index");
                 }
             }
 

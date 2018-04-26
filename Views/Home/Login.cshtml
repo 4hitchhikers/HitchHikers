@@ -1,68 +1,91 @@
 @{
-    ViewData["Title"] = "Login/Register";
+    Layout = null;
 }
-@model Hitchhikers.Models.RegisterViewModel;
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-controller="Home" asp-action="Register" method="POST" class="form-group">
-        <h1>Register</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/site.css">
 
-            <label asp-for="FirstName"></label>
-            <input asp-for="FirstName" class="form-control">
-            <br>
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-            <br>
-            <label asp-for="LastName"></label>
-            <input asp-for="LastName" class="form-control">
-            <br>
-            <span asp-validation-for="LastName" class="text-danger"></span>
-            <br>
-            <label asp-for="Nickname"></label>
-            <input asp-for="Nickname" class="form-control">
-            <br>
-            <span asp-validation-for="Nickname" class="text-danger"></span>
-            <br>
-            <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control"> 
-            <br>
-            <span asp-validation-for="Email" class="text-danger"></span>
-            <span class="text-danger">@TempData["error"]</span>
-            <br>
+</head>
+<body id="register_log">
+    @model Hitchhikers.Models.RegisterViewModel;
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <form asp-controller="Home" asp-action="Register" method="POST" class="form-group">
+                <h1>Register</h1>
+                    <div class="form-group">
+                        <div>
+                            <label asp-for="FirstName"></label>
+                            <input asp-for="FirstName" class="form-control">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
 
-            <label asp-for="Password"></label>
-            <input asp-for="Password" class="form-control"> 
-            <br>
-            <span asp-validation-for="Password" class="text-danger"></span>
-            <br>
-            <label asp-for="ConfirmedPW"></label>
-            <input asp-for="ConfirmedPW" class="form-control">
-            <br>
-            <span asp-validation-for="ConfirmedPW" class="text-danger"></span>
-            <br>
-            <button type="submit" class="btn btn-info">Create new User</button>
-        </form>
-    </div>
-    <div class="col-md-6">
-        <form action="/login" method="POST" class="form-group">
-            <h1>Login</h1>
-            <br>
-            Email: <input type="text" name="email" class="form-control"> 
-            <br>
-            <span class="text-danger">@ViewBag.email_error</span>
-            <br>
-            Password: <input type="password" name="loginpw" class="form-control">
-            <br>
-            <span class="text-danger">@ViewBag.psw_error</span>
-            <br>
-            <input type="submit" name="login" value="Login" class="btn btn-info">
-        </form>
+                        </div>
 
-        <div>
-        @{
-           <span>@ViewBag.Error </span>
-        }
+                        <div>
+                            <label asp-for="LastName"></label>
+                            <input asp-for="LastName" class="form-control">
+                
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Nickname"></label>
+                            <input asp-for="Nickname" class="form-control">
+
+                            <span asp-validation-for="Nickname" class="text-danger"></span>
+                        </div>
+                
+                        <div>
+                            <label asp-for="Email"></label>
+                            <input asp-for="Email" class="form-control"> 
+
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <span class="text-danger">@TempData["error"]</span>
+                        </div>
+
+                        <div>
+                            <label asp-for="Password"></label>
+                            <input asp-for="Password" class="form-control"> 
+                
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label asp-for="ConfirmedPW"></label>
+                            <input asp-for="ConfirmedPW" class="form-control">
+                    
+                            <span asp-validation-for="ConfirmedPW" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success">Create new User</button>
+                </form>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3">
+                <form action="Login" method="POST" class="form-group">
+                    <h1>Login</h1>
+                    <br>
+                    Email: <input type="text" name="email" class="form-control"> 
+                    <br>
+                    Password: <input type="password" name="loginpw" class="form-control">
+                    <br>
+                    <span class="text-danger">@ViewBag.Error </span>
+                    <br>
+                    <input type="submit" name="login" value="Login" class="btn btn-info">
+                </form>
+            </div>
         </div>
-
     </div>
-</div>
+    
+</body>
+</html>
+
+
+
+
+
