@@ -5,7 +5,6 @@ namespace Hitchhikers.Models
 {
     public class Picture
     {
-
         public int PictureId { get; set; }
         public string PictName { get; set; }
         public DateTime DateVisited { get; set; }
@@ -17,8 +16,6 @@ namespace Hitchhikers.Models
         public int StateId { get; set; }
         public State State { get; set; }
         public List<Comment> PictComments { get; set; }
-
-
 
         public Picture()
         {

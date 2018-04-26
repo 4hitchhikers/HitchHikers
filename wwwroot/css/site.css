@@ -2,3 +2,56 @@
     background-color: #505050;
     z-index: -1
 } */
+
+/* .box{
+    margin-top: 150px;
+    height: auto;
+    width: 50%;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: white;
+} */
+.chatroom{
+    margin-top: 130px;
+    padding-left: 60px;
+    border-radius: 20px;
+    background-color: rgba(238, 235, 235, 0.8);
+}
+
+.sendBtn{
+    margin-left: 185px;
+}
+
+#ChatroomBg{
+    background-image: url("../images/chatbg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 850px;
+}
+
+.chatbox{
+    height: 400px;
+    overflow: scroll;
+    width: 500px;
+}
+
+.innerbox{
+    /* position: fixed; */
+    height: auto;
+    bottom: 0px;
+}
+
+li{
+    list-style: none;
+}
+
+.messageInput{
+    width: 500px;
+    height: 50px;
+}
+
+.chatbox{
+    margin-top: 50px;
+    padding: 10px 50px 0 20px;
+    background: rgba(238, 235, 235, 0.5);
+}

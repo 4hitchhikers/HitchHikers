@@ -1,29 +1,90 @@
-﻿
-@page
-    <div class="container">
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <title>@ViewData["Title"] Hitchhikers</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+            asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body id="ChatroomBg">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Hitchhikers</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Travel" asp-action="Dashboard">Dashboard</a></li>
+                    <li><a asp-area="" asp-controller="Travel" asp-action="StartChat">Chat Room</a></li>
+                    @{
+                        if(@ViewBag.CurrentUserID == null){
+                            <li><a asp-area="" asp-controller="Home" asp-action="SignIn">Login</a></li>
+                        }else{
+                            <li><a asp-area="" asp-controller="Home" asp-action="Logout">Logout</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 chatroom">
         <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-12">&nbsp;</div>
+            <div class="col-12 chatbox">
+                <ul id="messagesList"></ul>
+            </div>
+        </div>
         <div class="row">
             <div class="col-6">&nbsp;</div>
             <div class="col-6">
-                User..........@ViewBag.CurrentUser.FirstName</h1>
-                <input type="text" id="userInput" value="@ViewBag.CurrentUser.FirstName" />
+                <form>
+                <input type="hidden" id="userInput" value=@ViewBag.CurrentUser />
                 <br />
-                Message...<input type="text" id="messageInput" />
-                <input type="button" id="sendButton" value="Send Message" />
-            </div>
+                <input type="text" id="messageInput" class="messageInput form-control" placeholder="Enter Message"/>
+                
+                    <div class="row">&nbsp;</div>
+                    <input type="submit" id="sendButton" value="Send Message" class="btn btn-primary sendBtn"/>
+                </div>
+                </form>
         </div>
         <div class="row">
             <div class="col-12">
                 <hr />
             </div>
         </div>
-        <div class="row">
-            <div class="col-6">&nbsp;</div>
-            <div class="col-6">
-                <ul id="messagesList"></ul>
-            </div>
-        </div>
     </div>
+    <div class="col-md-6"></div>
+    </div>
+    
+    
     <script src="~/lib/signalr.js"></script>
     <script src="~/js/chat.js"></script>
     @*<script src="~/js/es5-chat.js"></script>*@
+
+    </body>
+</html>
