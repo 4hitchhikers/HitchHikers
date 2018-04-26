@@ -5,7 +5,6 @@ namespace Hitchhikers.Models
 {
     public class Picture
     {
-
         public int PictureId { get; set; }
         public string PictName { get; set; }
         public DateTime DateVisited { get; set; }

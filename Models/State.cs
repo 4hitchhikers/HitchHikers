@@ -6,7 +6,6 @@ namespace Hitchhikers.Models
 {
     public class State
     {
-
         public int StateId { get; set; }
         public string States { get; set; }
         public string City { get; set; }
