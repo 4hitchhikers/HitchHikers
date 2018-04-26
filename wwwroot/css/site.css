@@ -11,14 +11,11 @@ body{
 
 }
 
-/* .index{
-    background-color: #505050;
-    z-index: -1
-} */
-
 body {
     padding-top: 50px;
 }
+
+/* ChatRoom Css */
 .box{
     margin-top: 150px;
     height: auto;
@@ -28,14 +25,11 @@ body {
     background: white;
 }
 .chatroom{
+    width: 50%;
     margin-top: 130px;
-    padding-left: 60px;
-    border-radius: 20px;
+    border-radius: 5px;
+    padding: 30px;
     background-color: rgba(238, 235, 235, 0.8);
-}
-
-.sendBtn{
-    margin-left: 185px;
 }
 
 #ChatroomBg{
@@ -48,13 +42,8 @@ body {
 .chatbox{
     height: 400px;
     overflow: scroll;
-    width: 500px;
-}
-
-.innerbox{
-    /* position: fixed; */
-    height: auto;
-    bottom: 0px;
+    width: 95%;
+    margin-left: 10px;
 }
 
 li{
@@ -62,23 +51,29 @@ li{
 }
 
 .messageInput{
-    width: 500px;
-    height: 50px;
+    height: 40px;
 }
 
-.chatbox{
-    margin-top: 50px;
-    padding: 10px 50px 0 20px;
-    background: rgba(238, 235, 235, 0.5);
+.sendBtn{
+    height: 40px;
+}
+
+.col-md-2{
+    padding-left: 0;
+}
+
+.col-md-10{
+    padding-right: 0;
 }
 
 
-
+/* Login Reg Css */
 .aroundborderlogin{
     height: 320px;
     width: 370px;
     margin-top: 50px;
-    padding: 45px 45px 0 40px;
+    padding: 25px 45px;
+    border-radius: 10px;
     background: rgba(238, 235, 235, 0.5);
 }
 
@@ -86,7 +81,8 @@ li{
     height: auto;
     width: 370px;
     margin-top: 50px;
-    padding: 25px 45px 25px 40px;
+    padding: 25px 45px;
+    border-radius: 10px;
     background: rgba(238, 235, 235, 0.5);
 }
 
@@ -99,3 +95,13 @@ li{
 }
 
 
+/* Form css */
+.mt30{
+    margin-top: 30px;
+}
+
+.mt20{
+    margin-top: 20px;
+}
+
+/* User Dashboard */
