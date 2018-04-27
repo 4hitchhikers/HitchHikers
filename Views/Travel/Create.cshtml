@@ -4,11 +4,9 @@
         <p>
             <label asp-for="Description"></label>
             <textarea asp-for="Description" class="form-control"></textarea>
-            <br>
             <span asp-validation-for="Description" class="text-danger"></span>
-            <br>
         </p>
-         <p>
+        <p>
             <label asp-for="States"></label>
             <span asp-validation-for="States" class="text-danger"></span>
             <select class="form-control" asp-for="States">
@@ -41,6 +39,7 @@
                 <span asp-validation-for="PictName" class="text-danger"></span>
             </div>
     </div>
+        </p>
         <br>
         <div class="row">
             <div class="col-md-12"><button class="btn btn-success form-control" type="submit">Create</button></div>
