@@ -1,5 +1,5 @@
 @model Hitchhikers.Models.CreateViewModel
-<form asp-controller="Travel" asp-action="AddPhoto" method="post">
+<form asp-controller="Travel" asp-action="AddPhoto" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <p>
             <label asp-for="Description"></label>

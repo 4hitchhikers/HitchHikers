@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Web;
 
 namespace Hitchhikers.Models
 {
     public class Picture
     {
+        
         public int PictureId { get; set; }
         public string PictName { get; set; }
         public string Description { get; set; }
@@ -24,5 +26,6 @@ namespace Hitchhikers.Models
             this.Updated_At = DateTime.Now;
             PictComments = new List<Comment>();
         }
+       
     }
 }

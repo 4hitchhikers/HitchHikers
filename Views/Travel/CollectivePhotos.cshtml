@@ -1,97 +1,30 @@
+@model Hitchhikers.Models.Picture
+
  <div class="container">
-    <div class="row">
-        <div class="col-sm-6 col-md-4">
-          <div class="thumbnail">
-            <img src="maldives.jpg" alt="...">
-            <div class="caption">
-              <h3>Summer in Maldives</h3>
-              <p><img src="" alt="profilepict" class="img-rounded"> : Name</p>
-              <p>City: Lorem ipsum dolor sit amet</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
+    <div class="col">
+      <h1>Welcome to @ViewBag.state</h1>
+    </div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="row mt-5">
+      @{ 
+          
+        foreach (var pictures in @ViewBag.DisplayPhoto)
+        {
+          <div class="col-sm-12 col-md-3">
             <div class="thumbnail">
-              <img src="maldives.jpg" alt="...">
+              <img src="~/images/@pictures.PictName" alt="image_pic">
               <div class="caption">
-                <h3>Splendid Spain</h3>
-                <p><img src="" alt="profilepict" class="img-rounded"> : Name</p>
-                <p>City: Lorem ipsum dolor sit amet</p>
+                <h3>@pictures.Description</h3>
+                <p>City: @pictures.City </p>
+                <p>State: @pictures.States </p>
+                <p>@pictures.PictName</p>
               </div>
             </div>
           </div>
-       <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="maldives.jpg" alt="...">
-          <div class="caption">
-            <h3>Thumbnail label</h3>
-            <p><img src="" alt="profilepict" class="img-rounded"> : Name</p>
-            <p>City: Lorem ipsum dolor sit amet</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="maldives.jpg" alt="...">
-          <div class="caption">
-            <h3>Thumbnail label</h3>
-            <p><img src="" alt="profilepict" class="img-rounded"> : Name</p>
-            <p>City: Lorem ipsum dolor sit amet</p>
-          </div>
-        </div>
-      </div>
-    <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="maldives.jpg" alt="...">
-          <div class="caption">
-            <h3>Thumbnail label</h3>
-            <p><img src="" alt="profilepict" class="img-rounded"> : Name</p>
-            <p>City: Lorem ipsum dolor sit amet</p>
-          </div>
-        </div>
-      </div>
-     <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <img src="maldives.jpg" alt="...">
-          <div class="caption">
-            <h3>Thumbnail label</h3>
-            <p><img src="" alt="profilepict" class="img-rounded"> : Name</p>
-            <p>City: Lorem ipsum dolor sit amet</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-          <div class="thumbnail">
-            <img src="maldives.jpg" alt="...">
-            <div class="caption">
-              <h3>Thumbnail label</h3>
-              <p><img src="" alt="profilepict" class="img-rounded"> : Name</p>
-              <p>City: Lorem ipsum dolor sit amet</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-              <img src="maldives.jpg" alt="...">
-              <div class="caption">
-                <h3>Thumbnail label</h3>
-                <p><img src="" alt="profilepict" class="img-rounded"> : Name</p>
-                <p>City: Lorem ipsum dolor sit amet</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4">
-              <div class="thumbnail">
-                <img src="maldives.jpg" alt="...">
-                <div class="caption">
-                  <h3>Thumbnail label</h3>
-                  <p><img src="" alt="profilepict" class="img-rounded"> : Name</p>
-                  <p>City: Lorem ipsum dolor sit amet</p>
-                </div>
-              </div>
-            </div>
-        </div>
-      </div>
+        }
+      }
+    </div>
+</div>
 
 
-<h1>Welcome to @ViewBag.state</h1>

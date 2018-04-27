@@ -7,18 +7,29 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hitchhikers.Models;
+using System.Web;
+using System.Net.Http.Headers;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
+
+
 
 namespace Hitchhikers.Controllers
 {
     public class TravelController : Controller
     {
         private TravelContext _dbcontext;
+        private readonly IHostingEnvironment hostingEnvironment;
 
         //Constructor
-        public TravelController(TravelContext context)
+        public TravelController(TravelContext context,IHostingEnvironment environment)
         {
             _dbcontext = context;
+            hostingEnvironment = environment;
+
         }
+
         [HttpGet]
         [Route("Dashboard")]
         public IActionResult Dashboard()
@@ -46,27 +57,44 @@ namespace Hitchhikers.Controllers
 
         [HttpPost]
         [Route("AddPhoto")]
-        public IActionResult AddPhoto(CreateViewModel model)
+        public IActionResult AddPhoto(CreateViewModel model, List<IFormFile> PictName)
         {
-            System.Console.WriteLine((int)HttpContext.Session.GetInt32("CurrentUserID"));
+            
+            if(ModelState.IsValid) 
+            {
+                long size = PictName.Sum(f => f.Length);
+                string strfullPath = "";
+                // full path to file in temp location
+                var filePath = Path.GetTempFileName();
 
-           if(ModelState.IsValid) {
-
-               Picture NewPicture  = new Picture
+                foreach (var formFile in PictName)
                 {
-                    UploaderId = (int)HttpContext.Session.GetInt32("CurrentUserID"),
-                    States = model.States,
-                    City = model.City,
-                    PictName = model.PictName,
-                    DateVisited = model.DateOfVisit,
-                    Description = model.Description,
-                };
- 
-                _dbcontext.Pictures.Add(NewPicture);
-                _dbcontext.SaveChanges();
-                return View("Dashboard");    
+                    var uploads = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                    var fullPath = Path.Combine(uploads, GetUniqueFileName(formFile.FileName));
+                    strfullPath = GetUniqueFileName(formFile.FileName);
+                    formFile.CopyTo(new FileStream(fullPath, FileMode.Create));
+                }
+
+                Picture NewPicture  = new Picture
+                    {
+                        UploaderId = (int)HttpContext.Session.GetInt32("CurrentUserID"),
+                        States = model.States,
+                        City = model.City,
+                        PictName = strfullPath,
+                        DateVisited = model.DateOfVisit,
+                        Description = model.Description,
+                    };
+    
+                    _dbcontext.Pictures.Add(NewPicture);
+                    _dbcontext.SaveChanges();
+                    return View("Dashboard");
             }
-        return View("Create");
+            return View("Create");
+        }
+        private string GetUniqueFileName(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            return fileName;
         }
 
         [HttpGet]
@@ -84,6 +112,8 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
+            var Pictures = _dbcontext.Pictures.Include(users => users.Uploader).Where(states => states.States == state).ToList();
+            ViewBag.DisplayPhoto = Pictures;
             ViewBag.state = state;
             return View("CollectivePhotos");
         }
