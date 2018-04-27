@@ -61,22 +61,23 @@ namespace Hitchhikers.Controllers
             ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
             return View("Dashboard");
         }
+        [HttpGet]
+        [Route("CollectivePhotos/viewPicture/{picID}")]
+        public IActionResult ViewPicture(int picID)
+        {
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
+            Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
+            ViewBag.Pic = photo;
 
-        // [HttpGet]
-        // [Route("CollectivePhotos/viewPicture/{picID}")]
-        // public IActionResult ViewPicture(int picID)
-        // {
-        //     if (!CheckLoggedIn())
-        //     {
-        //         return RedirectToAction("SignIn", "Home");
-        //     }
-        //     ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
+            var comment = _dbcontext.Comments.Include(u => u.Sender).Where(c => c.PictureId == picID).Include(u => u.Sender).ToList();
+            ViewBag.Comment = comment;
+            return View("ViewPicture");
+        }
 
-        //     Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
-        //     ViewBag.Pic = photo;
-
-        //     return View("ViewPicture");
-        // }
 
         [HttpGet]
         [Route("CollectivePhotos/viewUser/{userID}")]
@@ -169,6 +170,12 @@ namespace Hitchhikers.Controllers
             return fileName;
         }
 
+        [HttpGet]
+        [Route("CollectivePhotos/ViewPicture/CollectivePhotos/viewUser/{UserID}")]
+        public IActionResult ViewViewUser(int UserID){
+            return RedirectToAction("ViewUser", new{UserID=UserID});
+        }
+
         [HttpPost]
         [Route("comment")]
         public IActionResult Comment(int photoID, string comment)
@@ -194,52 +201,12 @@ namespace Hitchhikers.Controllers
             Comment deleteCmt = _dbcontext.Comments.Where(e => e.Commentid == Cmtid).SingleOrDefault();
             if (deleteCmt.SenderId != CurrentUserID)
             {
-                return RedirectToAction("ViewPicture", new { picID = deleteCmt.PictureId });
+                return Redirect($"/CollectivePhotos/ViewPicture/{deleteCmt.PictureId}");
             }
             _dbcontext.Comments.Remove(deleteCmt);
             _dbcontext.SaveChanges();
-            return RedirectToAction("ViewPicture", new { picID = deleteCmt.PictureId });
+            return Redirect($"/CollectivePhotos/ViewPicture/{deleteCmt.PictureId}");
         }
-
-        [HttpGet]
-        [Route("CollectivePhotos/viewPicture/{picID}")]
-        public IActionResult ViewPicture(int picID)
-        {
-            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
-            if (!CheckLoggedIn())
-            {
-                return RedirectToAction("SignIn", "Home");
-            }
-            Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
-            ViewBag.Pic = photo;
-
-            var comment = _dbcontext.Comments.Include(u => u.Sender).Where(c => c.PictureId == picID).Include(u => u.Sender).ToList();
-            ViewBag.Comment = comment;
-            return View("ViewPicture");
-        }
-
-        // [HttpGet]
-        // [Route("CollectivePhotos/viewUser/{userID}")]
-        // public IActionResult ViewUser(int UserID)
-        // {
-        //     if (!CheckLoggedIn())
-        //     {
-        //         return RedirectToAction("SignIn", "Home");
-        //     }
-        //     var ViewUser = _dbcontext.Users.Where(User => User.Userid == UserID).Include(pic => pic.Uploaded).ToList();
-
-        //     var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
-        //     var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
-        //     ViewBag.AllUploaded = alluploaded;
-
-        //     // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
-        //     JsonSerializerSettings jss = new JsonSerializerSettings();
-        //     jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        //     var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
-        //     ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
-        //     return View("Dashboard");
-        // }
-
 
 
         [HttpGet]
@@ -278,14 +245,6 @@ namespace Hitchhikers.Controllers
             return View("Chatroom");
         }
 
-        [HttpGet]
-        [Route("logoff")]
-        public IActionResult Logoff()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login");
-        }
-        
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
