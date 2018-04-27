@@ -10,16 +10,18 @@ const connection = new signalR.HubConnection(
     "/chathub", { logger: signalR.LogLevel.Information });
 
 connection.on("ReceiveMessage", (user, message) => { 
-const encodedMsg = user + " says " + message;
+const encodedMsg = user + ": " + message;
 const li = document.createElement("li");
 li.textContent = encodedMsg;
+li.style.color= getcolor();
 document.getElementById("messagesList").appendChild(li);
 });
 
 document.getElementById("sendButton").addEventListener("click", event => {
 const user = document.getElementById("userInput").value;
-const message = document.getElementById("messageInput").value;    
+const message = document.getElementById("messageInput").value;   
 connection.invoke("SendMessage", user, message).catch(err => console.error);
+document.getElementById("messageInput").value ="";
 event.preventDefault();
 });
 
@@ -28,4 +30,8 @@ connection.start().catch(err => logErr(errorMsg));
 
 function logErr(errorMsg) {
     console.log(errorMsg);
+}
+
+function getcolor(){
+    return document.getElementById("fontcolor").value; 
 }

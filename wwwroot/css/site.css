@@ -26,10 +26,10 @@ body {
 }
 .chatroom{
     width: 50%;
-    margin-top: 130px;
+    margin-top: 100px;
     border-radius: 5px;
     padding: 30px;
-    background-color: rgba(238, 235, 235, 0.8);
+    background-color: rgba(247, 248, 248, 0.8);
 }
 
 #ChatroomBg{
@@ -41,7 +41,7 @@ body {
 
 .chatbox{
     height: 400px;
-    overflow: scroll;
+    overflow-y: scroll;
     width: 95%;
     margin-left: 10px;
 }
@@ -51,11 +51,16 @@ li{
 }
 
 .messageInput{
-    height: 40px;
+    height: 60px;
+}
+
+#messagesList li{
+    font-weight: bold;
+    font-size:1.2em;
 }
 
 .sendBtn{
-    height: 40px;
+    height: 60px;
 }
 
 .col-md-2{
@@ -64,6 +69,10 @@ li{
 
 .col-md-10{
     padding-right: 0;
+}
+
+.blue{
+    color: blue;
 }
 
 
