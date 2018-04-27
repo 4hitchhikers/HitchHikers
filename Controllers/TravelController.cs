@@ -102,8 +102,8 @@ namespace Hitchhikers.Controllers
         public IActionResult AddPhoto(CreateViewModel model, List<IFormFile> PictName)
         {
             
-            if(ModelState.IsValid) 
-            {
+            // if(ModelState.IsValid) 
+            // {
                 long size = PictName.Sum(f => f.Length);
                 string strfullPath = "";
                 // full path to file in temp location
@@ -129,8 +129,9 @@ namespace Hitchhikers.Controllers
     
                     _dbcontext.Pictures.Add(NewPicture);
                     _dbcontext.SaveChanges();
-                    return View("Dashboard");
-            }
+
+                    return RedirectToAction("CollectivePhotos", new {state = model.States });
+            // }
             return View("Create");
         }
         private string GetUniqueFileName(string fileName)
