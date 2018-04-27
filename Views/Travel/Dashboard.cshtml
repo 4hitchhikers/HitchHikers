@@ -52,6 +52,12 @@
                 <h3><i class="fas fa-user-circle"></i> @item.FirstName @item.LastName</h3>
                 <h4>@item.Email</h4>
                 <p><label>Total Uploaded: @ViewBag.Count</label></p>
+                <div class="row"><br></div>
+                <h4>Most Visted Places</h4>
+                @foreach (var i in @ViewBag.MostVisted)
+                    {
+                        <h3>@i.Item2 : @i.Item1.ToString() times </h3>
+                    }
             }
         }
         
@@ -68,9 +74,9 @@
 @{
     foreach(var item in @ViewBag.AllUploaded){
         <div class="col-md-3">
-            <div class="thumbnail">
+            <div class="thumbnail thumbnailDash">
                 <a href="~/images/@item.PictName" target="_blank">
-                    <img src="~/images/@item.PictName" alt="Lights" style="width:100%">
+                    <img src="~/images/@item.PictName" alt="Lights" class="photosize">
                 <div class="caption">
                     <p>@item.Description</p>
                 </div>
