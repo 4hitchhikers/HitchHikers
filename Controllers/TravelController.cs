@@ -278,14 +278,6 @@ namespace Hitchhikers.Controllers
             return View("Chatroom");
         }
 
-        [HttpGet]
-        [Route("logoff")]
-        public IActionResult Logoff()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login");
-        }
-        
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
