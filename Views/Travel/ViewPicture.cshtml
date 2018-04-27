@@ -17,7 +17,25 @@
                 <h4>Visted Date:  @ViewBag.Pic.DateVisited.ToString("MMMM dd, yyyy")</h4>
             </div>
             <div class="row">
-                <h4>Uploaded by: <a href="#"> @ViewBag.Pic.Uploader.FirstName  @ViewBag.Pic.Uploader.LastName</a></h4>
+                <h4>Uploaded by: <a href=""> @ViewBag.Pic.Uploader.FirstName  @ViewBag.Pic.Uploader.LastName</a></h4>
             </div>
+            foreach (var comments in @ViewBag.Comment)
+            {
+                <div class="row">
+                    <h4><a href="">@ViewBag.Comment.Sender.FirstName</a> @ViewBag.Comment.Comments</h4>
+                </div>
+            }
+            <div class="row">
+                <form action ="comment" method ="post">
+                <div class="form-group">
+                    <p>
+                        <label name="comment">Comments</label>
+                        <textarea name="comment" class="form-control"></textarea>
+                        <input type="hidden" name="photoID" value=@ViewBag.Pic.PictureId>
+                    </p>
+                </div>
+            </form>
+            </div>
+
         }
 </div>

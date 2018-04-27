@@ -8,17 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hitchhikers.Models;
 using Newtonsoft.Json;
-<<<<<<< HEAD
-using System.Web;
-using System.Drawing;
-=======
 using Microsoft.AspNetCore.Hosting;
 using System.Web;
 using System.Drawing;
 using System.Net.Http.Headers;
 using System.IO;
 using Microsoft.AspNetCore.Hosting.Internal;
->>>>>>> 2ea09b46f62a67154ff8d85ea340a442308a5711
 
 namespace Hitchhikers.Controllers
 {
@@ -93,12 +88,12 @@ namespace Hitchhikers.Controllers
 
         [HttpGet]
         [Route("Create")]
-        public IActionResult Create()
+        public IActionResult Create(string Page)
         {
+            HttpContext.Session.SetString("PageName", Page);
             List<string> StateList = new List<string>
             { "AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC","FM", "FL","GA", "GU","HI","ID","IL", "IN", "IA","KS","KY","LA","ME", "MH", "MD", "MA", "MI","MN","MS","MO", "MT", "NE","NV","NH","NJ", "NM", "NY", "NC", "ND","MP","OH","OK", "OR",  "PW", "PA","PR","RI", "SC", "SD", "TN","TX","UT","VT", "VI", "VA", "WA", "WV", "WI","WY"};
             ViewBag.all_states = StateList;
-
             return View("Create");
         }
 
@@ -106,9 +101,9 @@ namespace Hitchhikers.Controllers
         [Route("AddPhoto")]
         public IActionResult AddPhoto(CreateViewModel model, List<IFormFile> PictName)
         {
-            
-            if(ModelState.IsValid) 
-            {
+            System.Console.WriteLine(model.States);
+           // if(ModelState.IsValid) 
+           // {
                 long size = PictName.Sum(f => f.Length);
                 string strfullPath = "";
                 // full path to file in temp location
@@ -130,13 +125,18 @@ namespace Hitchhikers.Controllers
                         PictName = strfullPath,
                         DateVisited = model.DateOfVisit,
                         Description = model.Description,
+                        Address = model.Address
                     };
     
                     _dbcontext.Pictures.Add(NewPicture);
                     _dbcontext.SaveChanges();
-                    return View("Dashboard");
-            }
-            return View("Create");
+                    string PageName = (string) HttpContext.Session.GetString("PageName");
+
+                    if ( PageName != "Dashboard")
+                    {
+                         return RedirectToAction("CollectivePhotos", new {state = model.States });
+                    }
+                    return RedirectToAction("Dashboard");
         }
         private string GetUniqueFileName(string fileName)
         {
@@ -144,17 +144,8 @@ namespace Hitchhikers.Controllers
             return fileName;
         }
 
-        [HttpGet]
-        [Route("ViewPicture/{photoID}")]
-        public IActionResult ViewPicture(int photoID)
-        {
-            var pic = _dbcontext.Pictures.Where(e => e.PictureId == photoID).Include(p => p.Uploader).SingleOrDefault();
-            ViewBag.Pic = pic;
-            return View("ViewPicture");
-        }
-
         [HttpPost]
-        [Route("comment/{photoID}")]
+        [Route("comment")]
         public IActionResult Comment(int photoID, string comment)
         {
             Comment newComment = new Comment
@@ -166,8 +157,47 @@ namespace Hitchhikers.Controllers
             _dbcontext.Comments.Add(newComment);
             _dbcontext.SaveChanges();
             return RedirectToAction("ViewPicture", new { photoID = photoID });
-
         }
+
+        [HttpGet]
+        [Route("CollectivePhotos/viewPicture/{picID}")]
+        public IActionResult ViewPicture(int picID)
+        {
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
+            Picture photo = _dbcontext.Pictures.Where(e=>e.PictureId == picID).Include(p=>p.Uploader).SingleOrDefault();
+            ViewBag.Pic = photo;
+            
+            var comment = _dbcontext.Comments.Where(c => c.PictureId == picID).Include(u => u.Sender).ToList();
+            ViewBag.Comment = comment;
+            return View("ViewPicture");
+        }
+
+        [HttpGet]
+        [Route("CollectivePhotos/viewUser/{userID}")]
+        public IActionResult ViewUser(int UserID)
+        {
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
+            var ViewUser = _dbcontext.Users.Where(User => User.Userid == UserID).Include(pic => pic.Uploaded).ToList();
+            
+            var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
+            var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
+            ViewBag.AllUploaded = alluploaded;
+
+            // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
+            JsonSerializerSettings jss = new JsonSerializerSettings();
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
+            ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
+            return View("Dashboard");
+        }
+
+
 
         [HttpGet]
         [Route("CollectivePhotos/{state}")]
@@ -177,12 +207,9 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
-<<<<<<< HEAD
-=======
             var Pictures = _dbcontext.Pictures.Include(users => users.Uploader).Where(states => states.States == state).ToList();
             ViewBag.DisplayPhoto = Pictures;
             ViewBag.state = state;
->>>>>>> 2ea09b46f62a67154ff8d85ea340a442308a5711
             return View("CollectivePhotos");
         }
 
