@@ -70,6 +70,8 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
+
             Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
             ViewBag.Pic = photo;
 
@@ -86,6 +88,7 @@ namespace Hitchhikers.Controllers
             }
             var User = _dbcontext.Users.Where(u => u.Userid == UserID)
                                     .Include(pic => pic.Uploaded).ToList();
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
 
             var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
             var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
@@ -99,6 +102,7 @@ namespace Hitchhikers.Controllers
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
             ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
+            
             return View("Dashboard");
         }
 
