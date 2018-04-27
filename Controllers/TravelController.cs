@@ -52,7 +52,7 @@ namespace Hitchhikers.Controllers
             ViewBag.User = User;
             User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
                                     .Include(pic => pic.Uploaded).SingleOrDefault();
-            // MostVisted(userState);
+            ViewBag.MostVisted = MostVisted(userState);
 
             // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
             JsonSerializerSettings jss = new JsonSerializerSettings();
@@ -265,27 +265,31 @@ namespace Hitchhikers.Controllers
             return true;
         }
 
-        // public Dictionary<string, int> MostVisted(User user)
-        // {
-        //     Dictionary<string, int> data = new Dictionary<string, int>()
-        //         {{"AL", 0},{"AK", 0},{"AS", 0},{"AZ", 0},{"AR", 0},{"CA", 0},{"CO", 0},{"CT", 0},{"DE", 0},{"DC", 0},{"FM", 0},{"FL", 0},{"GA", 0},{"GU", 0},{"HI", 0},{"ID", 0},{"IL", 0},{"IN", 0},{"IA", 0},{"KS", 0},{"KY", 0},{"LA", 0},{"ME", 0},{"MH", 0},{"MD", 0},{"MA", 0},{"MI", 0},{"MN", 0},{"MS", 0},{"MO", 0},{"MT", 0},{"NE", 0},{"NV", 0},{"NH", 0},{"NJ", 0},{"NM", 0},{"NY", 0},{"NC", 0},{"ND", 0},{"MP", 0},{"OH", 0},{"OK", 0},{"OR", 0},{"PW", 0},{"PA", 0},{"PR", 0},{"RI", 0},{"SC", 0},{"SD", 0},{"TN", 0},{"TX", 0},{"UT", 0},{"VT", 0},{"VI", 0},{"VA", 0},{"WA", 0},{"WV", 0},{"WI", 0},{"WY", 0} };
-        //     var keys = new List<string>(data.Keys);
-        //     var vistedState = user.Uploaded.
-        //     foreach (string i in keys)
-        //     {
-        //         foreach (var state in ViewBag.states)
-        //         {
-        //             if (i == state.States)
-        //             {
-        //                 data[i] += 1;
-        //             }
-        //         }
-        //     }
-        //     foreach(var b in data)
-        // {
-        // b.Ke b.Value </ p >
-        // }
-        // }
+        public List<Tuple<int,string>> MostVisted(User user)
+        {
+            Dictionary<string, int> data = new Dictionary<string, int>()
+                {{"AL", 0},{"AK", 0},{"AS", 0},{"AZ", 0},{"AR", 0},{"CA", 0},{"CO", 0},{"CT", 0},{"DE", 0},{"DC", 0},{"FM", 0},{"FL", 0},{"GA", 0},{"GU", 0},{"HI", 0},{"ID", 0},{"IL", 0},{"IN", 0},{"IA", 0},{"KS", 0},{"KY", 0},{"LA", 0},{"ME", 0},{"MH", 0},{"MD", 0},{"MA", 0},{"MI", 0},{"MN", 0},{"MS", 0},{"MO", 0},{"MT", 0},{"NE", 0},{"NV", 0},{"NH", 0},{"NJ", 0},{"NM", 0},{"NY", 0},{"NC", 0},{"ND", 0},{"MP", 0},{"OH", 0},{"OK", 0},{"OR", 0},{"PW", 0},{"PA", 0},{"PR", 0},{"RI", 0},{"SC", 0},{"SD", 0},{"TN", 0},{"TX", 0},{"UT", 0},{"VT", 0},{"VI", 0},{"VA", 0},{"WA", 0},{"WV", 0},{"WI", 0},{"WY", 0} };
+            var keys = new List<string>(data.Keys);
+            var vistedState = _dbcontext.Pictures.Include(e=>e.Uploader).Where(p=>p.Uploader.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID")).ToList();
+            var list = new List<Tuple<int, string>>();
+            foreach (string i in keys)
+            {
+                foreach (var state in vistedState)
+                {
+                    if (i == state.States)
+                    {
+                        data[i] += 1;
+                    }
+                }
+                list = new List<Tuple<int, string>>();
+                foreach(KeyValuePair<string, int> kvp in data){
+                    if(kvp.Value != 0){
+                        list.Add(Tuple.Create(kvp.Value, kvp.Key));
+                    }
+                }
+            }
+            return list;
+        }
     }
 }
 

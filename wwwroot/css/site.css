@@ -166,3 +166,18 @@ li{
     font-size: 1.2em;
 }
 
+<<<<<<< HEAD
+=======
+.photosize {
+    width: 255px !important;
+    height: 145px !important;
+}
+
+.thumbnail{
+    height:280px !important;
+}
+
+.thumbnailDash{
+    height: 200px !important;
+}
+>>>>>>> finalStyling
