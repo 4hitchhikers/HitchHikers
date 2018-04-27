@@ -48,7 +48,7 @@
 </div>
     <div class="col-lg-4 col-sm-12">
         @{
-            foreach(var item in @ViewBag.CurrentUser){
+            foreach(var item in @ViewBag.User){
                 <h3><i class="fas fa-user-circle"></i>@item.FirstName @item.LastName</h3>
                 <h4>@item.Email</h4>
                 <p><label>Total Uploaded: @ViewBag.Count</label></p>
