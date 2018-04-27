@@ -138,13 +138,10 @@ svg {
     stroke: white;
     stroke-width: 1;
 }
-<<<<<<< HEAD
 
 .map_label{
     position: absolute;
     width: 210px;
     top: -5px;
-    right: 275px;
+    right: 350px;
 }
-=======
->>>>>>> finalStyling
