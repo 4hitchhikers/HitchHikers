@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hitchhikers.Models;
+using Newtonsoft.Json;
 
 namespace Hitchhikers.Controllers
 {
@@ -42,6 +43,12 @@ namespace Hitchhikers.Controllers
             var alluploaded = _dbcontext.Pictures.Where(user=>user.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID")).ToList();
             ViewBag.CurrentUser = currentUser;
             ViewBag.AllUploaded = alluploaded;
+
+            // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
+            JsonSerializerSettings jss = new JsonSerializerSettings();
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            var states = _dbcontext.Pictures.Where(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID")).ToList();
+            ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
             return View("Dashboard");
         }
 
