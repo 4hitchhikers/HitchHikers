@@ -138,3 +138,10 @@ svg {
     stroke: white;
     stroke-width: 1;
 }
+
+.map_label{
+    position: absolute;
+    width: 210px;
+    top: -5px;
+    right: 275px;
+}
