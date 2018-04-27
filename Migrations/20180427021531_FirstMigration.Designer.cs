@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hitchhikers.Migrations
 {
     [DbContext(typeof(TravelContext))]
-    [Migration("20180426064035_FirstMigration")]
+    [Migration("20180427021531_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
