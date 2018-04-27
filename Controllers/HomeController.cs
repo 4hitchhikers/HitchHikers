@@ -75,12 +75,12 @@ namespace Hitchhikers.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(string email, string loginpw)
+        public IActionResult Login(string login_email, string loginpw)
         {
 
             PasswordHasher<User> Hasher = new PasswordHasher<User>();
 
-            var loginUser = _dbcontext.Users.SingleOrDefault(User => User.Email == email);
+            var loginUser = _dbcontext.Users.SingleOrDefault(User => User.Email == login_email);
             if (loginUser != null)
             {
                 var hashedPw = Hasher.VerifyHashedPassword(loginUser, loginUser.Password, loginpw);
