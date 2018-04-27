@@ -62,19 +62,21 @@ namespace Hitchhikers.Controllers
             return View("Dashboard");
         }
 
-        // [HttpGet]
-        // [Route("CollectivePhotos/viewPicture/{picID}")]
-        // public IActionResult ViewPicture(int picID)
-        // {
-        //     if (!CheckLoggedIn())
-        //     {
-        //         return RedirectToAction("SignIn", "Home");
-        //     }
-        //     Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
-        //     ViewBag.Pic = photo;
+        [HttpGet]
+        [Route("CollectivePhotos/viewPicture/{picID}")]
+        public IActionResult ViewPicture(int picID)
+        {
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
 
-        //     return View("ViewPicture");
-        // }
+            Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
+            ViewBag.Pic = photo;
+
+            return View("ViewPicture");
+        }
 
         [HttpGet]
         [Route("CollectivePhotos/viewUser/{userID}")]
@@ -86,6 +88,7 @@ namespace Hitchhikers.Controllers
             }
             var User = _dbcontext.Users.Where(u => u.Userid == UserID)
                                     .Include(pic => pic.Uploaded).ToList();
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
 
             var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
             var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
@@ -99,6 +102,7 @@ namespace Hitchhikers.Controllers
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
             ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
+            
             return View("Dashboard");
         }
 

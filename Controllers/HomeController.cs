@@ -90,7 +90,6 @@ namespace Hitchhikers.Controllers
                     return RedirectToAction("Index");
                 }
             }
-
             ViewBag.Error = "Email address or Password is not matching";
             return View("Login");
 
