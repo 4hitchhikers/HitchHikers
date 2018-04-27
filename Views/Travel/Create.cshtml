@@ -40,55 +40,12 @@
                 <input asp-for="PictName" class="form-control" type="file" class="custom-file-input"/>
                 <span asp-validation-for="PictName" class="text-danger"></span>
             </div>
+    </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12"><button class="btn btn-success form-control" type="submit">Create</button></div>
         </div>
-        <form asp-controller="Travel" asp-action="AddPhoto" method="post">
-            <div class="form-group">
-                <p>
-                    <label asp-for="Description"></label>
-                    <textarea asp-for="Description" class="form-control"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </p>
-                <p>
-                    <label asp-for="States"></label>
-                    <span asp-validation-for="States" class="text-danger"></span>
-                    <select class="form-control" asp-for="States">
-                    @{
-                        foreach (var states in @ViewBag.all_states)
-                        {
-                            <option>@states</option>
-                        }                
-                    }
-                    </select>
-                </p>
-                <p>
-                    <label asp-for="City"></label>
-                    <input asp-for="City" class="form-control"/>
-                    <span asp-validation-for="City" class="text-danger"></span>
-                </p>
-                <p>
-                    <label asp-for="Address"></label>
-                    <textarea asp-for="Address" class="form-control"></textarea>
-                </p>
-                <p>
-                    <label asp-for="DateOfVisit"></label>
-                    <input asp-for="DateOfVisit" type="date" class="form-control"/>
-                    <span asp-validation-for="DateOfVisit" class="text-danger"></span>
-                </p>
-                <p>
-                    <div class="custom-file">
-                        <label asp-for="PictName" class="custom-file-label"></label>
-                        <input asp-for="PictName" class="form-control" type="file" class="custom-file-input"/>
-                        <span asp-validation-for="PictName" class="text-danger"></span>
-                    </div>
-                </p>
-                <br>
-                <div class="row">
-                    <div class="col-md-12"><button class="btn btn-success form-control" type="submit">Create</button></div>
-                </div>
-                
-            </div>
-        </form>
-        </div>
+    </form>
         <div class="col-md-6 col-12">
             <!-- <img src="~/images/photo.jpg" width="100%" height="800px"> -->
         </div>
