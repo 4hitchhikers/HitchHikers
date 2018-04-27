@@ -1,41 +1,54 @@
 <div class="row">
     @{
-            <div class="row">
-                <img src= "~/images/@ViewBag.Pic.PictName" class="enlargepic">
-            </div>
-            <div class="row">
-            <h4>Description:  @ViewBag.Pic.Description</h4>
-            </div>
-            <div class="row">
+            <div class="row mt30">
+                <div class="col-md-9 col-12"><img src= "~/images/@ViewBag.Pic.PictName" class="enlargepic"></div>
+                <div class="col-md-3 col-12 vcenter">
+                <h4>Description:  @ViewBag.Pic.Description</h4>
                 @if( @ViewBag.Pic.City != null){
-                    <h4>Location:  @ViewBag.Pic.City,  @ViewBag.Pic.States</h4>
+                    <h4>@ViewBag.Pic.Address</h4>
+                    <h4> @ViewBag.Pic.City,  @ViewBag.Pic.States</h4>
                 }else{
-                    <h4>Location:  @ViewBag.Pic.States</h4>
+                    <h4>In @ViewBag.Pic.States</h4>
                 }
+                <h4>@ViewBag.Pic.DateVisited.ToString("MMMM dd, yyyy")</h4>
+                <br>
+                <h4>Explored by <a href="CollectivePhotos/viewUser/@ViewBag.Pic.Uploader.Userid"> @ViewBag.Pic.Uploader.FirstName  @ViewBag.Pic.Uploader.LastName</a></h4>
+                </div>
             </div>
-            <div class="row">
-                <h4>Visted Date:  @ViewBag.Pic.DateVisited.ToString("MMMM dd, yyyy")</h4>
-            </div>
-            <div class="row">
-                <h4>Uploaded by: <a href=""> @ViewBag.Pic.Uploader.FirstName  @ViewBag.Pic.Uploader.LastName</a></h4>
-            </div>
+            <div class="row"><br></div>
+                <div class="row  text-center">
+                    <div class="col-md-5 align-middle mt20"><hr/></div>
+                    <div class="col-md-2"><h3>Comments</h3></div>
+                    <div class="col-md-5 align-middle mt20"><hr/></div>
+                </div>
+            <div class="row"><br></div>
             foreach (var comments in @ViewBag.Comment)
             {
-                <div class="row">
-                    <h4><a href="">@comments.Sender.FirstName</a> @comments.CommentText</h4>
+                <div class="row comments">
+                    <div class="col-md-9">
+                        <h4><a href="CollectivePhotos/viewUser/@comments.Sender.Userid">@comments.Sender.FirstName</a> @comments.CommentText</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <p>@comments.Created_At.ToString("MMM dd,yyyy hh:mm tt") <a href="delete/@comments.Commentid"> <i class="fas fa-trash-alt"></i></a></p>
+                        
+                    </div>
                 </div>
+                <div class="comments"><hr/></div>
+                
             }
-            <div class="row">
+            <div class="row comments mt30">
                 <form action ="/comment" method ="post">
                 <div class="form-group">
-                    <p>
+                    <div class="col-md-10 col-12">
                         <label name="comment">Comments</label>
                         <textarea name="comment" class="form-control"></textarea>
                         <input type="hidden" name="photoID" value=@ViewBag.Pic.PictureId>
-                    </p>
-                </div>
-                <div class="row">
-                    <div class="col-md-12"><button class="btn btn-success form-control" type="submit">Add a comment</button></div>
+                    </div>
+                    <br>
+                    <div class="col-md-2 col-12">
+                        <button class="btn btn-info form-control cmtbtn" type="submit">Add a comment</button>
+                    </div>
+
                 </div>
             </form>
             </div>

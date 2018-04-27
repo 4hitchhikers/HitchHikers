@@ -13,17 +13,18 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700|Yeseva+One" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
             asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
             asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     </environment>
 </head>
 <body id="ChatroomBg">
-    <nav class="navbar navbar navbar-fixed-top navbar-custom">
+    <nav class="navbar navbar-inverse navbar-fixed-top navbar-custom">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -54,10 +55,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-12 chatroom">
-            <div class="row">&nbsp;</div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <i class="fas fa-plane">icon</i>
+                    <i class="fas fa-plane"></i>
                 </div>
             </div>
             <div class="row">
@@ -79,7 +79,7 @@
             </form>
         </div>
         </div>
-    <div class="col-md-6 col-12"></div>
+    <div class="col-md-6 col-12 col12none"></div>
     </div>
     
     

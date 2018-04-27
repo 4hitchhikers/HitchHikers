@@ -62,6 +62,22 @@ namespace Hitchhikers.Controllers
             return View("Dashboard");
         }
 
+        // [HttpGet]
+        // [Route("CollectivePhotos/viewPicture/{picID}")]
+        // public IActionResult ViewPicture(int picID)
+        // {
+        //     if (!CheckLoggedIn())
+        //     {
+        //         return RedirectToAction("SignIn", "Home");
+        //     }
+        //     ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
+
+        //     Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
+        //     ViewBag.Pic = photo;
+
+        //     return View("ViewPicture");
+        // }
+
         [HttpGet]
         [Route("CollectivePhotos/viewUser/{userID}")]
         public IActionResult ViewUser(int UserID)
@@ -94,6 +110,10 @@ namespace Hitchhikers.Controllers
         [Route("Create")]
         public IActionResult Create(string Page)
         {
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
             HttpContext.Session.SetString("PageName", Page);
             ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             List<string> StateList = new List<string>
@@ -165,10 +185,27 @@ namespace Hitchhikers.Controllers
             return Redirect($"/CollectivePhotos/viewPicture/{photoID}");
         }
 
+        // route needs to be configure 
+        [HttpGet]
+        [Route("CollectivePhotos/viewPicture/delete/{Cmtid}")]
+        public IActionResult DeleteCmt(int Cmtid)
+        {
+            int CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
+            Comment deleteCmt = _dbcontext.Comments.Where(e => e.Commentid == Cmtid).SingleOrDefault();
+            if (deleteCmt.SenderId != CurrentUserID)
+            {
+                return RedirectToAction("ViewPicture", new { picID = deleteCmt.PictureId });
+            }
+            _dbcontext.Comments.Remove(deleteCmt);
+            _dbcontext.SaveChanges();
+            return RedirectToAction("ViewPicture", new { picID = deleteCmt.PictureId });
+        }
+
         [HttpGet]
         [Route("CollectivePhotos/viewPicture/{picID}")]
         public IActionResult ViewPicture(int picID)
         {
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             if (!CheckLoggedIn())
             {
                 return RedirectToAction("SignIn", "Home");
