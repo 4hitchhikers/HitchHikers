@@ -63,22 +63,6 @@ namespace Hitchhikers.Controllers
         }
 
         [HttpGet]
-        [Route("CollectivePhotos/viewPicture/{picID}")]
-        public IActionResult ViewPicture(int picID)
-        {
-            if (!CheckLoggedIn())
-            {
-                return RedirectToAction("SignIn", "Home");
-            }
-            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
-
-            Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
-            ViewBag.Pic = photo;
-
-            return View("ViewPicture");
-        }
-
-        [HttpGet]
         [Route("CollectivePhotos/viewUser/{userID}")]
         public IActionResult ViewUser(int UserID)
         {
@@ -102,7 +86,7 @@ namespace Hitchhikers.Controllers
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
             ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
-            
+
             return View("Dashboard");
         }
 
@@ -123,41 +107,41 @@ namespace Hitchhikers.Controllers
         public IActionResult AddPhoto(CreateViewModel model, List<IFormFile> PictName)
         {
             System.Console.WriteLine(model.States);
-           // if(ModelState.IsValid) 
-           // {
-                long size = PictName.Sum(f => f.Length);
-                string strfullPath = "";
-                // full path to file in temp location
-                var filePath = Path.GetTempFileName();
+            // if(ModelState.IsValid) 
+            // {
+            long size = PictName.Sum(f => f.Length);
+            string strfullPath = "";
+            // full path to file in temp location
+            var filePath = Path.GetTempFileName();
 
-                foreach (var formFile in PictName)
-                {
-                    var uploads = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                    var fullPath = Path.Combine(uploads, GetUniqueFileName(formFile.FileName));
-                    strfullPath = GetUniqueFileName(formFile.FileName);
-                    formFile.CopyTo(new FileStream(fullPath, FileMode.Create));
-                }
+            foreach (var formFile in PictName)
+            {
+                var uploads = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                var fullPath = Path.Combine(uploads, GetUniqueFileName(formFile.FileName));
+                strfullPath = GetUniqueFileName(formFile.FileName);
+                formFile.CopyTo(new FileStream(fullPath, FileMode.Create));
+            }
 
-                Picture NewPicture  = new Picture
-                    {
-                        UploaderId = (int)HttpContext.Session.GetInt32("CurrentUserID"),
-                        States = model.States,
-                        City = model.City,
-                        PictName = strfullPath,
-                        DateVisited = model.DateOfVisit,
-                        Description = model.Description,
-                        Address = model.Address
-                    };
-    
-                    _dbcontext.Pictures.Add(NewPicture);
-                    _dbcontext.SaveChanges();
-                    string PageName = (string) HttpContext.Session.GetString("PageName");
+            Picture NewPicture = new Picture
+            {
+                UploaderId = (int)HttpContext.Session.GetInt32("CurrentUserID"),
+                States = model.States,
+                City = model.City,
+                PictName = strfullPath,
+                DateVisited = model.DateOfVisit,
+                Description = model.Description,
+                Address = model.Address
+            };
 
-                    if ( PageName != "Dashboard")
-                    {
-                         return RedirectToAction("CollectivePhotos", new {state = model.States });
-                    }
-                    return RedirectToAction("Dashboard");
+            _dbcontext.Pictures.Add(NewPicture);
+            _dbcontext.SaveChanges();
+            string PageName = (string)HttpContext.Session.GetString("PageName");
+
+            if (PageName != "Dashboard")
+            {
+                return RedirectToAction("CollectivePhotos", new { state = model.States });
+            }
+            return RedirectToAction("Dashboard");
         }
         private string GetUniqueFileName(string fileName)
         {
@@ -189,9 +173,9 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
-            Picture photo = _dbcontext.Pictures.Where(e=>e.PictureId == picID).Include(p=>p.Uploader).SingleOrDefault();
+            Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
             ViewBag.Pic = photo;
-            
+
             var comment = _dbcontext.Comments.Include(u => u.Sender).Where(c => c.PictureId == picID).Include(u => u.Sender).ToList();
             ViewBag.Comment = comment;
             return View("ViewPicture");
@@ -206,7 +190,7 @@ namespace Hitchhikers.Controllers
         //         return RedirectToAction("SignIn", "Home");
         //     }
         //     var ViewUser = _dbcontext.Users.Where(User => User.Userid == UserID).Include(pic => pic.Uploaded).ToList();
-            
+
         //     var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
         //     var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
         //     ViewBag.AllUploaded = alluploaded;
@@ -237,8 +221,9 @@ namespace Hitchhikers.Controllers
         }
         [HttpGet]
         [Route("CollectivePhotos/viewUser/CollectivePhotos/{state}")]
-        public IActionResult RedirectCollectivePhotos(string state){
-            return RedirectToAction("CollectivePhotos", new{state = state});
+        public IActionResult RedirectCollectivePhotos(string state)
+        {
+            return RedirectToAction("CollectivePhotos", new { state = state });
         }
 
         [HttpGet]

@@ -54,7 +54,7 @@ namespace Hitchhikers
             }
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
             app.UseSession();
             app.UseSignalR(routes =>
             {
