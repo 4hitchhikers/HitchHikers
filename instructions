@@ -1,0 +1,29 @@
+
+
+               long size = files.Sum(f => f.Length);
+
+                // full path to file in temp location
+                var filePath = Path.GetTempFileName();
+
+                foreach (var formFile in files)
+                {
+                var uploads = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                var fullPath = Path.Combine(uploads, GetUniqueFileName(formFile.FileName));
+                formFile.CopyTo(new FileStream(fullPath, FileMode.Create));
+
+                }
+
+               Picture NewPicture  = new Picture
+                {
+                    UploaderId = (int)HttpContext.Session.GetInt32("CurrentUserID"),
+                    States = model.States,
+                    City = model.City,
+                    PictName = model.PictName,
+                    DateVisited = model.DateOfVisit,
+                    Description = model.Description,
+                };
+ 
+                _dbcontext.Pictures.Add(NewPicture);
+                _dbcontext.SaveChanges();
+                return View("Dashboard");    
+            }
