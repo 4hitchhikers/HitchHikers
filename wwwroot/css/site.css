@@ -8,6 +8,8 @@ body, #ChatroomBg{
     background-image: url('../images/adventure-ball-shaped-blur-346885.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+    font-family: 'Yeseva One', cursive;
+
 }
 
 /* main */
@@ -95,7 +97,7 @@ li{
 
 /* Login Reg Css */
 .aroundborderlogin{
-    height: 320px;
+    height: auto;
     width: 370px;
     margin-top: 50px;
     padding: 25px 45px;

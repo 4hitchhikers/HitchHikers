@@ -100,12 +100,9 @@ namespace Hitchhikers.Controllers
         public IActionResult Logoff()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            return RedirectToAction("SignIn");
         }
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        
     }
 }
 

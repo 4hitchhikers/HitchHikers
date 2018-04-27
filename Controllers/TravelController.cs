@@ -278,6 +278,19 @@ namespace Hitchhikers.Controllers
             return View("Chatroom");
         }
 
+        [HttpGet]
+        [Route("logoff")]
+        public IActionResult Logoff()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+        
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
         private string Getcolor()
         {
             string color = "rgb(" + rnd.Next(150) + "," + rnd.Next(256) + "," + rnd.Next(256) + ")";
@@ -314,8 +327,5 @@ namespace Hitchhikers.Controllers
         // b.Ke b.Value </ p >
         // }
         // }
-
-
-
     }
 }
