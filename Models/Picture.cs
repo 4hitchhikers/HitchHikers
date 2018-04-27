@@ -6,7 +6,6 @@ namespace Hitchhikers.Models
 {
     public class Picture
     {
-        
         public int PictureId { get; set; }
         public string PictName { get; set; }
         public string Description { get; set; }

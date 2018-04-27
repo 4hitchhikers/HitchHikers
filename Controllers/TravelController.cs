@@ -24,7 +24,7 @@ namespace Hitchhikers.Controllers
         private readonly IHostingEnvironment hostingEnvironment;
 
         //Constructor
-        public TravelController(TravelContext context,IHostingEnvironment environment)
+        public TravelController(TravelContext context, IHostingEnvironment environment)
         {
             _dbcontext = context;
             hostingEnvironment = environment;
@@ -39,21 +39,20 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
-            // ViewBag.state = state;
-            // ViewBag.Email = HttpContext.Session.GetString("email");
             ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
-            var currentUser = _dbcontext.Users.Where(User => User.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
+            int UserID = ViewBag.CurrentUserID;
+            var User = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
                                     .Include(pic => pic.Uploaded).ToList();
-            // var userstates = _dbcontext.Users.Where(User=>User.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
-            //             .Include(pic=>pic.Uploaded.GroupBy(p=>p.States)).ToList();
-            //             foreach(var item in userstates){
-            //                 System.Console.WriteLine(item.Uploaded.Count());
 
-            //             }
-            var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID")).GroupBy(s => s.States).ToList();
-            var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID")).ToList();
-            ViewBag.CurrentUser = currentUser;
+            var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
+            var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
+            int count = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).Count();
             ViewBag.AllUploaded = alluploaded;
+            ViewBag.Count = count;
+            ViewBag.User = User;
+            User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
+                                    .Include(pic => pic.Uploaded).SingleOrDefault();
+            // MostVisted(userState);
 
             // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
             JsonSerializerSettings jss = new JsonSerializerSettings();
@@ -64,33 +63,51 @@ namespace Hitchhikers.Controllers
         }
 
         // [HttpGet]
-        // [Route("viewPicture/{userID}")]
-        // public IActionResult ViewPicture(int UserID)
+        // [Route("CollectivePhotos/viewPicture/{picID}")]
+        // public IActionResult ViewPicture(int picID)
         // {
         //     if (!CheckLoggedIn())
         //     {
         //         return RedirectToAction("SignIn", "Home");
         //     }
-        //     var Photo = _dbcontext.Users.Where(User => User.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
-        //                             .Include(pic => pic.Uploaded).ToList();
-        //     // var userstates = _dbcontext.Users.Where(User=>User.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
-        //     //             .Include(pic=>pic.Uploaded.GroupBy(p=>p.States)).ToList();
-        //     //             foreach(var item in userstates){
-        //     //                 System.Console.WriteLine(item.Uploaded.Count());
+        //     Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
+        //     ViewBag.Pic = photo;
 
-        //     //             }
-
-        //     var userPhoto =_dbcontext.Users.Where(User => User.Userid == UserID)
-        //                             .Include(pic => pic.Uploaded).ToList();
-        //     ViewBag.UserPhoto = userPhoto;
-        //     return View("Dashboard");
+        //     return View("ViewPicture");
         // }
+
+        [HttpGet]
+        [Route("CollectivePhotos/viewUser/{userID}")]
+        public IActionResult ViewUser(int UserID)
+        {
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
+            var User = _dbcontext.Users.Where(u => u.Userid == UserID)
+                                    .Include(pic => pic.Uploaded).ToList();
+
+            var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
+            var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
+            int count = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).Count();
+            ViewBag.AllUploaded = alluploaded;
+            ViewBag.Count = count;
+            ViewBag.User = User;
+
+            // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
+            JsonSerializerSettings jss = new JsonSerializerSettings();
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
+            ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
+            return View("Dashboard");
+        }
 
         [HttpGet]
         [Route("Create")]
         public IActionResult Create(string Page)
         {
             HttpContext.Session.SetString("PageName", Page);
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             List<string> StateList = new List<string>
             { "AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC","FM", "FL","GA", "GU","HI","ID","IL", "IN", "IA","KS","KY","LA","ME", "MH", "MD", "MA", "MI","MN","MS","MO", "MT", "NE","NV","NH","NJ", "NM", "NY", "NC", "ND","MP","OH","OK", "OR",  "PW", "PA","PR","RI", "SC", "SD", "TN","TX","UT","VT", "VI", "VA", "WA", "WV", "WI","WY"};
             ViewBag.all_states = StateList;
@@ -175,27 +192,27 @@ namespace Hitchhikers.Controllers
             return View("ViewPicture");
         }
 
-        [HttpGet]
-        [Route("CollectivePhotos/viewUser/{userID}")]
-        public IActionResult ViewUser(int UserID)
-        {
-            if (!CheckLoggedIn())
-            {
-                return RedirectToAction("SignIn", "Home");
-            }
-            var ViewUser = _dbcontext.Users.Where(User => User.Userid == UserID).Include(pic => pic.Uploaded).ToList();
+        // [HttpGet]
+        // [Route("CollectivePhotos/viewUser/{userID}")]
+        // public IActionResult ViewUser(int UserID)
+        // {
+        //     if (!CheckLoggedIn())
+        //     {
+        //         return RedirectToAction("SignIn", "Home");
+        //     }
+        //     var ViewUser = _dbcontext.Users.Where(User => User.Userid == UserID).Include(pic => pic.Uploaded).ToList();
             
-            var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
-            var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
-            ViewBag.AllUploaded = alluploaded;
+        //     var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
+        //     var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
+        //     ViewBag.AllUploaded = alluploaded;
 
-            // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
-            JsonSerializerSettings jss = new JsonSerializerSettings();
-            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
-            ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
-            return View("Dashboard");
-        }
+        //     // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
+        //     JsonSerializerSettings jss = new JsonSerializerSettings();
+        //     jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        //     var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
+        //     ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
+        //     return View("Dashboard");
+        // }
 
 
 
@@ -207,10 +224,16 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             var Pictures = _dbcontext.Pictures.Include(users => users.Uploader).Where(states => states.States == state).ToList();
             ViewBag.DisplayPhoto = Pictures;
             ViewBag.state = state;
             return View("CollectivePhotos");
+        }
+        [HttpGet]
+        [Route("CollectivePhotos/viewUser/CollectivePhotos/{state}")]
+        public IActionResult RedirectCollectivePhotos(string state){
+            return RedirectToAction("CollectivePhotos", new{state = state});
         }
 
         [HttpGet]
@@ -221,6 +244,7 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             User user = _dbcontext.Users.Where(e => e.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID")).SingleOrDefault();
             ViewBag.CurrentUser = user.FirstName;
             ViewBag.UserColor = Getcolor();
@@ -229,7 +253,7 @@ namespace Hitchhikers.Controllers
 
         private string Getcolor()
         {
-            string color = "rgb(" + rnd.Next(150) +"," + rnd.Next(256) + "," + rnd.Next(256) +")";
+            string color = "rgb(" + rnd.Next(150) + "," + rnd.Next(256) + "," + rnd.Next(256) + ")";
             return color;
         }
 
@@ -241,5 +265,30 @@ namespace Hitchhikers.Controllers
             }
             return true;
         }
+
+        // public Dictionary<string, int> MostVisted(User user)
+        // {
+        //     Dictionary<string, int> data = new Dictionary<string, int>()
+        //         {{"AL", 0},{"AK", 0},{"AS", 0},{"AZ", 0},{"AR", 0},{"CA", 0},{"CO", 0},{"CT", 0},{"DE", 0},{"DC", 0},{"FM", 0},{"FL", 0},{"GA", 0},{"GU", 0},{"HI", 0},{"ID", 0},{"IL", 0},{"IN", 0},{"IA", 0},{"KS", 0},{"KY", 0},{"LA", 0},{"ME", 0},{"MH", 0},{"MD", 0},{"MA", 0},{"MI", 0},{"MN", 0},{"MS", 0},{"MO", 0},{"MT", 0},{"NE", 0},{"NV", 0},{"NH", 0},{"NJ", 0},{"NM", 0},{"NY", 0},{"NC", 0},{"ND", 0},{"MP", 0},{"OH", 0},{"OK", 0},{"OR", 0},{"PW", 0},{"PA", 0},{"PR", 0},{"RI", 0},{"SC", 0},{"SD", 0},{"TN", 0},{"TX", 0},{"UT", 0},{"VT", 0},{"VI", 0},{"VA", 0},{"WA", 0},{"WV", 0},{"WI", 0},{"WY", 0} };
+        //     var keys = new List<string>(data.Keys);
+        //     var vistedState = user.Uploaded.
+        //     foreach (string i in keys)
+        //     {
+        //         foreach (var state in ViewBag.states)
+        //         {
+        //             if (i == state.States)
+        //             {
+        //                 data[i] += 1;
+        //             }
+        //         }
+        //     }
+        //     foreach(var b in data)
+        // {
+        // b.Ke b.Value </ p >
+        // }
+        // }
+
+
+
     }
 }
