@@ -7,12 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hitchhikers.Models;
-<<<<<<< HEAD
 using Newtonsoft.Json;
-=======
 using System.Web;
 using System.Drawing;
->>>>>>> ViewPicture
 
 namespace Hitchhikers.Controllers
 {
@@ -154,8 +151,6 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
-
-            
             return View("CollectivePhotos");
         }
 
