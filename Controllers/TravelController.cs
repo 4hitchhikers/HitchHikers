@@ -90,6 +90,7 @@ namespace Hitchhikers.Controllers
         [Route("Create")]
         public IActionResult Create()
         {
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             List<string> StateList = new List<string>
             { "AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC","FM", "FL","GA", "GU","HI","ID","IL", "IN", "IA","KS","KY","LA","ME", "MH", "MD", "MA", "MI","MN","MS","MO", "MT", "NE","NV","NH","NJ", "NM", "NY", "NC", "ND","MP","OH","OK", "OR",  "PW", "PA","PR","RI", "SC", "SD", "TN","TX","UT","VT", "VI", "VA", "WA", "WV", "WI","WY"};
             ViewBag.all_states = StateList;
@@ -102,8 +103,8 @@ namespace Hitchhikers.Controllers
         public IActionResult AddPhoto(CreateViewModel model, List<IFormFile> PictName)
         {
             
-            if(ModelState.IsValid) 
-            {
+            // if(ModelState.IsValid) 
+            // {
                 long size = PictName.Sum(f => f.Length);
                 string strfullPath = "";
                 // full path to file in temp location
@@ -129,9 +130,9 @@ namespace Hitchhikers.Controllers
     
                     _dbcontext.Pictures.Add(NewPicture);
                     _dbcontext.SaveChanges();
-                    return View("Dashboard");
-            }
-            return View("Create");
+                    return RedirectToAction("CollectivePhotos", new {state = model.States });
+            // }
+            // return View("Create");
         }
         private string GetUniqueFileName(string fileName)
         {
@@ -143,6 +144,7 @@ namespace Hitchhikers.Controllers
         [Route("ViewPicture/{photoID}")]
         public IActionResult ViewPicture(int photoID)
         {
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             var pic = _dbcontext.Pictures.Where(e => e.PictureId == photoID).Include(p => p.Uploader).SingleOrDefault();
             ViewBag.Pic = pic;
             return View("ViewPicture");
@@ -172,6 +174,7 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             var Pictures = _dbcontext.Pictures.Include(users => users.Uploader).Where(states => states.States == state).ToList();
             ViewBag.DisplayPhoto = Pictures;
             ViewBag.state = state;
@@ -186,6 +189,7 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
             User user = _dbcontext.Users.Where(e => e.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID")).SingleOrDefault();
             ViewBag.CurrentUser = user.FirstName;
             ViewBag.UserColor = Getcolor();
