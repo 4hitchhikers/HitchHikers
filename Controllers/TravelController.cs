@@ -168,12 +168,13 @@ namespace Hitchhikers.Controllers
             Comment newComment = new Comment
             {
                 CommentText = comment,
-                SenderId = (int)HttpContext.Session.GetInt32("CurrentUSerID"),
+                SenderId = (int)HttpContext.Session.GetInt32("CurrentUserID"),
                 PictureId = photoID
             };
             _dbcontext.Comments.Add(newComment);
             _dbcontext.SaveChanges();
-            return RedirectToAction("ViewPicture", new { photoID = photoID });
+            // return RedirectToAction("ViewPicture", new { photoID = photoID });
+            return Redirect($"/CollectivePhotos/viewPicture/{photoID}");
         }
 
         [HttpGet]
@@ -187,7 +188,7 @@ namespace Hitchhikers.Controllers
             Picture photo = _dbcontext.Pictures.Where(e=>e.PictureId == picID).Include(p=>p.Uploader).SingleOrDefault();
             ViewBag.Pic = photo;
             
-            var comment = _dbcontext.Comments.Where(c => c.PictureId == picID).Include(u => u.Sender).ToList();
+            var comment = _dbcontext.Comments.Include(u => u.Sender).Where(c => c.PictureId == picID).Include(u => u.Sender).ToList();
             ViewBag.Comment = comment;
             return View("ViewPicture");
         }

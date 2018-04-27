@@ -1,7 +1,7 @@
 <div class="row">
     @{
             <div class="row">
-                <img src= "@ViewBag.Pic.PictName" class="enlargepic">
+                <img src= "~/images/@ViewBag.Pic.PictName" class="enlargepic">
             </div>
             <div class="row">
             <h4>Description:  @ViewBag.Pic.Description</h4>
@@ -22,17 +22,20 @@
             foreach (var comments in @ViewBag.Comment)
             {
                 <div class="row">
-                    <h4><a href="">@ViewBag.Comment.Sender.FirstName</a> @ViewBag.Comment.Comments</h4>
+                    <h4><a href="">@comments.Sender.FirstName</a> @comments.CommentText</h4>
                 </div>
             }
             <div class="row">
-                <form action ="comment" method ="post">
+                <form action ="/comment" method ="post">
                 <div class="form-group">
                     <p>
                         <label name="comment">Comments</label>
                         <textarea name="comment" class="form-control"></textarea>
                         <input type="hidden" name="photoID" value=@ViewBag.Pic.PictureId>
                     </p>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><button class="btn btn-success form-control" type="submit">Add a comment</button></div>
                 </div>
             </form>
             </div>
