@@ -8,12 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hitchhikers.Models;
 using Newtonsoft.Json;
+<<<<<<< HEAD
+using System.Web;
+using System.Drawing;
+=======
 using Microsoft.AspNetCore.Hosting;
 using System.Web;
 using System.Drawing;
 using System.Net.Http.Headers;
 using System.IO;
 using Microsoft.AspNetCore.Hosting.Internal;
+>>>>>>> 2ea09b46f62a67154ff8d85ea340a442308a5711
 
 namespace Hitchhikers.Controllers
 {
@@ -172,9 +177,12 @@ namespace Hitchhikers.Controllers
             {
                 return RedirectToAction("SignIn", "Home");
             }
+<<<<<<< HEAD
+=======
             var Pictures = _dbcontext.Pictures.Include(users => users.Uploader).Where(states => states.States == state).ToList();
             ViewBag.DisplayPhoto = Pictures;
             ViewBag.state = state;
+>>>>>>> 2ea09b46f62a67154ff8d85ea340a442308a5711
             return View("CollectivePhotos");
         }
 
