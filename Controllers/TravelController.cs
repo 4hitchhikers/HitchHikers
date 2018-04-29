@@ -43,22 +43,19 @@ namespace Hitchhikers.Controllers
             int UserID = ViewBag.CurrentUserID;
             var User = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
                                     .Include(pic => pic.Uploaded).ToList();
-
-            var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
             var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
-            int count = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).Count();
-            ViewBag.AllUploaded = alluploaded;
-            ViewBag.Count = count;
-            ViewBag.User = User;
             User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
                                     .Include(pic => pic.Uploaded).SingleOrDefault();
-            ViewBag.MostVisted = MostVisted(userState);
+            var states = _dbcontext.Pictures.Where(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID")).ToList();
 
-            // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
             JsonSerializerSettings jss = new JsonSerializerSettings();
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            var states = _dbcontext.Pictures.Where(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID")).ToList();
+
+            ViewBag.MostVisted = MostVisted(userState).Take(5); ;
             ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
+            ViewBag.AllUploaded = alluploaded;
+            ViewBag.Count = alluploaded.Count;
+            ViewBag.User = User;
             return View("Dashboard");
         }
         [HttpGet]
@@ -80,7 +77,8 @@ namespace Hitchhikers.Controllers
 
 
         [HttpGet]
-        [Route("CollectivePhotos/viewUser/{userID}")]
+        [Route("/CollectivePhotos/viewUser/{userID}")]
+        [Route("CollectivePhotos/viewUser/viewUser/{userID}")]
         public IActionResult ViewUser(int UserID)
         {
             if (!CheckLoggedIn())
@@ -91,17 +89,20 @@ namespace Hitchhikers.Controllers
                                     .Include(pic => pic.Uploaded).ToList();
             ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
 
+            User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
+                                    .Include(pic => pic.Uploaded).SingleOrDefault();
+            ViewBag.MostVisted = MostVisted(userState).Take(5);
+
             var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
             var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
             int count = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).Count();
+            var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
+
+            JsonSerializerSettings jss = new JsonSerializerSettings();
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             ViewBag.AllUploaded = alluploaded;
             ViewBag.Count = count;
             ViewBag.User = User;
-
-            // var states = _dbcontext.Pictures.SingleOrDefault(v => v.UploaderId == (int)HttpContext.Session.GetInt32("CurrentUserID"));
-            JsonSerializerSettings jss = new JsonSerializerSettings();
-            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
             ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
 
             return View("Dashboard");
@@ -172,8 +173,12 @@ namespace Hitchhikers.Controllers
 
         [HttpGet]
         [Route("CollectivePhotos/ViewPicture/CollectivePhotos/viewUser/{UserID}")]
-        public IActionResult ViewViewUser(int UserID){
-            return RedirectToAction("ViewUser", new{UserID=UserID});
+        public IActionResult ViewViewUser(int UserID)
+        {
+            User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
+                                    .Include(pic => pic.Uploaded).SingleOrDefault();
+            ViewBag.MostVisted = MostVisted(userState).Take(5); ;
+            return RedirectToAction("ViewUser", new { UserID = UserID });
         }
 
         [HttpPost]
@@ -265,12 +270,12 @@ namespace Hitchhikers.Controllers
             return true;
         }
 
-        public List<Tuple<int,string>> MostVisted(User user)
+        public List<Tuple<int, string>> MostVisted(User user)
         {
             Dictionary<string, int> data = new Dictionary<string, int>()
                 {{"AL", 0},{"AK", 0},{"AS", 0},{"AZ", 0},{"AR", 0},{"CA", 0},{"CO", 0},{"CT", 0},{"DE", 0},{"DC", 0},{"FM", 0},{"FL", 0},{"GA", 0},{"GU", 0},{"HI", 0},{"ID", 0},{"IL", 0},{"IN", 0},{"IA", 0},{"KS", 0},{"KY", 0},{"LA", 0},{"ME", 0},{"MH", 0},{"MD", 0},{"MA", 0},{"MI", 0},{"MN", 0},{"MS", 0},{"MO", 0},{"MT", 0},{"NE", 0},{"NV", 0},{"NH", 0},{"NJ", 0},{"NM", 0},{"NY", 0},{"NC", 0},{"ND", 0},{"MP", 0},{"OH", 0},{"OK", 0},{"OR", 0},{"PW", 0},{"PA", 0},{"PR", 0},{"RI", 0},{"SC", 0},{"SD", 0},{"TN", 0},{"TX", 0},{"UT", 0},{"VT", 0},{"VI", 0},{"VA", 0},{"WA", 0},{"WV", 0},{"WI", 0},{"WY", 0} };
             var keys = new List<string>(data.Keys);
-            var vistedState = _dbcontext.Pictures.Include(e=>e.Uploader).Where(p=>p.Uploader.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID")).ToList();
+            var vistedState = _dbcontext.Pictures.Include(e => e.Uploader).Where(p => p.Uploader.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID")).ToList();
             var list = new List<Tuple<int, string>>();
             foreach (string i in keys)
             {
@@ -282,8 +287,10 @@ namespace Hitchhikers.Controllers
                     }
                 }
                 list = new List<Tuple<int, string>>();
-                foreach(KeyValuePair<string, int> kvp in data){
-                    if(kvp.Value != 0){
+                foreach (KeyValuePair<string, int> kvp in data)
+                {
+                    if (kvp.Value != 0)
+                    {
                         list.Add(Tuple.Create(kvp.Value, kvp.Key));
                     }
                 }
@@ -292,6 +299,3 @@ namespace Hitchhikers.Controllers
         }
     }
 }
-
-
-// '#dd2508', '#f2ebea'

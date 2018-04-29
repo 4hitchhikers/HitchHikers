@@ -172,9 +172,10 @@ li{
 }
 
 .thumbnail{
-    height:280px !important;
+    height: 220px !important;
 }
 
 .thumbnailDash{
     height: 200px !important;
+    height:220px !important;
 }

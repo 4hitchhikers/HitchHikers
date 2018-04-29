@@ -75,12 +75,13 @@
     foreach(var item in @ViewBag.AllUploaded){
         <div class="col-md-3">
             <div class="thumbnail thumbnailDash">
-                <a href="~/images/@item.PictName" target="_blank">
+                <a href="viewUser/@item.PictureId">
                     <img src="~/images/@item.PictName" alt="Lights" class="photosize">
-                <div class="caption">
-                    <p>@item.Description</p>
-                </div>
                 </a>
+                <div class="caption">
+                    <p>@item.City, @item.States</p>
+                    <p>@item.Address</p>
+                </div>
             </div>
         </div>
     }

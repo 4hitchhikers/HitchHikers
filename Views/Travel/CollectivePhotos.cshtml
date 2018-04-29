@@ -15,8 +15,17 @@
             <div class="thumbnail">
               <a href="viewPicture/@pictures.PictureId"><img src="~/images/@pictures.PictName" alt="image_pic" class="photosize"></a>
               <div class="caption">
-                <h3>@pictures.Description</h3>
-                <p>@pictures.City, @pictures.States -by <a href="viewUser/@pictures.Uploader.Userid">@pictures.Uploader.FirstName @pictures.Uploader.LastName</a></p>
+                <div class="row">
+                  <div class="col-md-12">
+                    <p>@pictures.City, @pictures.States</p> 
+                    <p>@pictures.Address</p>
+                  </div>
+                </div>
+                <div class="row text-right">
+                  <div class="col-md-12">
+                    <p>-by <a href="viewUser/@pictures.Uploader.Userid">@pictures.Uploader.FirstName @pictures.Uploader.LastName</a></p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
