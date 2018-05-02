@@ -32,7 +32,7 @@ namespace Hitchhikers.Controllers
         }
 
         [HttpGet]
-        [Route("Dashboard")]
+        [Route("/Dashboard")]
         public IActionResult Dashboard()
         {
             if (!CheckLoggedIn())
@@ -58,58 +58,9 @@ namespace Hitchhikers.Controllers
             ViewBag.User = User;
             return View("Dashboard");
         }
-        [HttpGet]
-        [Route("CollectivePhotos/viewPicture/{picID}")]
-        public IActionResult ViewPicture(int picID)
-        {
-            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
-            if (!CheckLoggedIn())
-            {
-                return RedirectToAction("SignIn", "Home");
-            }
-            Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
-            ViewBag.Pic = photo;
-
-            var comment = _dbcontext.Comments.Include(u => u.Sender).Where(c => c.PictureId == picID).Include(u => u.Sender).ToList();
-            ViewBag.Comment = comment;
-            return View("ViewPicture");
-        }
-
 
         [HttpGet]
-        [Route("/CollectivePhotos/viewUser/{userID}")]
-        [Route("CollectivePhotos/viewUser/viewUser/{userID}")]
-        public IActionResult ViewUser(int UserID)
-        {
-            if (!CheckLoggedIn())
-            {
-                return RedirectToAction("SignIn", "Home");
-            }
-            var User = _dbcontext.Users.Where(u => u.Userid == UserID)
-                                    .Include(pic => pic.Uploaded).ToList();
-            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
-
-            User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
-                                    .Include(pic => pic.Uploaded).SingleOrDefault();
-            ViewBag.MostVisted = MostVisted(userState).Take(5);
-
-            var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
-            var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
-            int count = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).Count();
-            var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
-
-            JsonSerializerSettings jss = new JsonSerializerSettings();
-            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            ViewBag.AllUploaded = alluploaded;
-            ViewBag.Count = count;
-            ViewBag.User = User;
-            ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
-
-            return View("Dashboard");
-        }
-
-        [HttpGet]
-        [Route("Create")]
+        [Route("/Create")]
         public IActionResult Create(string Page)
         {
             if (!CheckLoggedIn())
@@ -125,7 +76,7 @@ namespace Hitchhikers.Controllers
         }
 
         [HttpPost]
-        [Route("AddPhoto")]
+        [Route("/AddPhoto")]
         public IActionResult AddPhoto(CreateViewModel model, List<IFormFile> PictName)
         {
             System.Console.WriteLine(model.States);
@@ -172,17 +123,67 @@ namespace Hitchhikers.Controllers
         }
 
         [HttpGet]
-        [Route("CollectivePhotos/ViewPicture/CollectivePhotos/viewUser/{UserID}")]
-        public IActionResult ViewViewUser(int UserID)
+        [Route("/CollectivePhotos/viewPicture/{picID}")]
+        public IActionResult ViewPicture(int picID)
         {
-            User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
-                                    .Include(pic => pic.Uploaded).SingleOrDefault();
-            ViewBag.MostVisted = MostVisted(userState).Take(5); ;
-            return RedirectToAction("ViewUser", new { UserID = UserID });
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
+            Picture photo = _dbcontext.Pictures.Where(e => e.PictureId == picID).Include(p => p.Uploader).SingleOrDefault();
+            ViewBag.Pic = photo;
+
+            var comment = _dbcontext.Comments.Include(u => u.Sender).Where(c => c.PictureId == picID).Include(u => u.Sender).ToList();
+            ViewBag.Comment = comment;
+            return View("ViewPicture");
         }
 
+
+        [HttpGet]
+        [Route("/CollectivePhotos/viewUser/{userID}")]
+        [Route("/CollectivePhotos/viewUser/viewUser/{userID}")]
+        public IActionResult ViewUser(int UserID)
+        {
+            if (!CheckLoggedIn())
+            {
+                return RedirectToAction("SignIn", "Home");
+            }
+            var User = _dbcontext.Users.Where(u => u.Userid == UserID)
+                                    .Include(pic => pic.Uploaded).ToList();
+            ViewBag.CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
+
+            User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
+                                    .Include(pic => pic.Uploaded).SingleOrDefault();
+            ViewBag.MostVisted = MostVisted(userState).Take(5);
+
+            var uploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).GroupBy(s => s.States).ToList();
+            var alluploaded = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).ToList();
+            int count = _dbcontext.Pictures.Where(user => user.UploaderId == UserID).Count();
+            var states = _dbcontext.Pictures.Where(v => v.UploaderId == UserID).ToList();
+
+            JsonSerializerSettings jss = new JsonSerializerSettings();
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            ViewBag.AllUploaded = alluploaded;
+            ViewBag.Count = count;
+            ViewBag.User = User;
+            ViewBag.MyStates = JsonConvert.SerializeObject(states, jss);
+
+            return View("Dashboard");
+        }
+
+        // [HttpGet]
+        // [Route("/CollectivePhotos/viewUser/{UserID}")]
+        // public IActionResult ViewViewUser(int UserID)
+        // {
+        //     User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
+        //                             .Include(pic => pic.Uploaded).SingleOrDefault();
+        //     ViewBag.MostVisted = MostVisted(userState).Take(5); ;
+        //     return RedirectToAction("ViewUser", new { UserID = UserID });
+        // }
+
         [HttpPost]
-        [Route("comment")]
+        [Route("/comment")]
         public IActionResult Comment(int photoID, string comment)
         {
             Comment newComment = new Comment
@@ -199,7 +200,7 @@ namespace Hitchhikers.Controllers
 
         // route needs to be configure 
         [HttpGet]
-        [Route("CollectivePhotos/viewPicture/delete/{Cmtid}")]
+        [Route("/CollectivePhotos/viewPicture/delete/{Cmtid}")]
         public IActionResult DeleteCmt(int Cmtid)
         {
             int CurrentUserID = (int)HttpContext.Session.GetInt32("CurrentUserID");
@@ -215,7 +216,7 @@ namespace Hitchhikers.Controllers
 
 
         [HttpGet]
-        [Route("CollectivePhotos/{state}")]
+        [Route("/CollectivePhotos/{state}")]
         public IActionResult CollectivePhotos(string state)
         {
             if (!CheckLoggedIn())
@@ -228,15 +229,15 @@ namespace Hitchhikers.Controllers
             ViewBag.state = state;
             return View("CollectivePhotos");
         }
-        [HttpGet]
-        [Route("CollectivePhotos/viewUser/CollectivePhotos/{state}")]
-        public IActionResult RedirectCollectivePhotos(string state)
-        {
-            return RedirectToAction("CollectivePhotos", new { state = state });
-        }
+        // [HttpGet]
+        // [Route("/CollectivePhotos/{state}")]
+        // public IActionResult RedirectCollectivePhotos(string state)
+        // {
+        //     return RedirectToAction("CollectivePhotos", new { state = state });
+        // }
 
         [HttpGet]
-        [Route("StartChat")]
+        [Route("/StartChat")]
         public IActionResult StartChat()
         {
             if (!CheckLoggedIn())

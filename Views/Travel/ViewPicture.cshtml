@@ -12,7 +12,7 @@
                 }
                 <h4>@ViewBag.Pic.DateVisited.ToString("MMMM dd, yyyy")</h4>
                 <br>
-                <h4>Explored by <a href="CollectivePhotos/viewUser/@ViewBag.Pic.Uploader.Userid"> @ViewBag.Pic.Uploader.FirstName  @ViewBag.Pic.Uploader.LastName</a></h4>
+                <h4>Explored by <a href="/CollectivePhotos/viewUser/@ViewBag.Pic.Uploader.Userid"> @ViewBag.Pic.Uploader.FirstName  @ViewBag.Pic.Uploader.LastName</a></h4>
                 </div>
             </div>
             <div class="row"><br></div>
@@ -26,7 +26,7 @@
             {
                 <div class="row comments">
                     <div class="col-md-9">
-                        <h4><a href="CollectivePhotos/viewUser/@comments.Sender.Userid">@comments.Sender.FirstName</a> @comments.CommentText</h4>
+                        <h4><a href="/CollectivePhotos/viewUser/@comments.Sender.Userid">@comments.Sender.FirstName</a> @comments.CommentText</h4>
                     </div>
                     <div class="col-md-3">
                         <p>@comments.Created_At.ToString("MMM dd,yyyy hh:mm tt") <a href="delete/@comments.Commentid"> <i class="fas fa-trash-alt"></i></a></p>
