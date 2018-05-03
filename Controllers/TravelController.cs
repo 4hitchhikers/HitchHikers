@@ -20,7 +20,7 @@ namespace Hitchhikers.Controllers
     public class TravelController : Controller
     {
         private TravelContext _dbcontext;
-        private Random rnd = new Random();
+        private Random rnd = new Random(Guid.NewGuid().GetHashCode());
         private readonly IHostingEnvironment hostingEnvironment;
 
         //Constructor
@@ -172,16 +172,6 @@ namespace Hitchhikers.Controllers
             return View("Dashboard");
         }
 
-        // [HttpGet]
-        // [Route("/CollectivePhotos/viewUser/{UserID}")]
-        // public IActionResult ViewViewUser(int UserID)
-        // {
-        //     User userState = _dbcontext.Users.Where(u => u.Userid == (int)HttpContext.Session.GetInt32("CurrentUserID"))
-        //                             .Include(pic => pic.Uploaded).SingleOrDefault();
-        //     ViewBag.MostVisted = MostVisted(userState).Take(5); ;
-        //     return RedirectToAction("ViewUser", new { UserID = UserID });
-        // }
-
         [HttpPost]
         [Route("/comment")]
         public IActionResult Comment(int photoID, string comment)
@@ -229,13 +219,7 @@ namespace Hitchhikers.Controllers
             ViewBag.state = state;
             return View("CollectivePhotos");
         }
-        // [HttpGet]
-        // [Route("/CollectivePhotos/{state}")]
-        // public IActionResult RedirectCollectivePhotos(string state)
-        // {
-        //     return RedirectToAction("CollectivePhotos", new { state = state });
-        // }
-
+    
         [HttpGet]
         [Route("/StartChat")]
         public IActionResult StartChat()
